@@ -7,6 +7,22 @@
 <title>العقارات</title>
 
 <style>
+:root{
+  --bg:#f6f8fb;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --line:#e5eaf1;
+  --primary:#16a34a;
+  --primary-dark:#15803d;
+  --navy:#0f172a;
+  --blue:#2563eb;
+  --orange:#f59e0b;
+  --red:#dc2626;
+  --shadow:0 14px 35px rgba(15,23,42,.08);
+  --radius:20px;
+}
+
 *{
   margin:0;
   padding:0;
@@ -15,68 +31,79 @@
 }
 
 body{
-  background:#f5f7fb;
-  color:#0f172a;
-  padding:25px;
+  background:
+    radial-gradient(circle at top left, rgba(22,163,74,.08), transparent 30%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
 }
 
 .page{
-  max-width:1400px;
+  max-width:1440px;
   margin:0 auto;
+  padding:28px;
 }
 
-.topbar{
+.header{
   display:flex;
   justify-content:space-between;
-  align-items:center;
-  gap:15px;
-  margin-bottom:25px;
+  align-items:flex-start;
+  gap:20px;
+  margin-bottom:22px;
 }
 
-.title-block h1{
-  font-size:32px;
-  margin-bottom:6px;
+.title h1{
+  font-size:34px;
+  letter-spacing:-.5px;
+  margin-bottom:8px;
 }
 
-.title-block p{
-  color:#64748b;
-  font-size:14px;
+.title p{
+  color:var(--muted);
+  font-size:15px;
 }
 
-.user-box{
+.header-actions{
   display:flex;
   gap:10px;
   align-items:center;
+  flex-wrap:wrap;
 }
 
-.user-info{
-  text-align:left;
-  direction:ltr;
+.user-pill{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:10px 14px;
+  box-shadow:0 6px 18px rgba(15,23,42,.05);
   font-size:13px;
-  color:#64748b;
+  color:var(--muted);
 }
 
 .btn{
-  background:#16a34a;
-  color:white;
-  border:none;
-  padding:12px 20px;
-  border-radius:10px;
+  border:0;
+  border-radius:12px;
+  padding:12px 18px;
   cursor:pointer;
-  font-size:15px;
-  transition:.2s;
+  font-size:14px;
+  font-weight:700;
+  transition:.2s ease;
+  white-space:nowrap;
 }
 
 .btn:hover{
-  opacity:.9;
+  transform:translateY(-1px);
+  opacity:.95;
 }
 
-.btn-secondary{
-  background:#1e293b;
+.btn-primary{
+  background:var(--primary);
+  color:white;
 }
 
-.btn-danger{
-  background:#dc2626;
+.btn-dark{
+  background:var(--navy);
+  color:white;
 }
 
 .btn-light{
@@ -84,208 +111,364 @@ body{
   color:#0f172a;
 }
 
-.toolbar{
-  background:white;
+.btn-danger{
+  background:var(--red);
+  color:white;
+}
+
+.kpis{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-bottom:18px;
+}
+
+.kpi{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+
+.kpi:before{
+  content:"";
+  position:absolute;
+  inset:auto 0 0 0;
+  height:4px;
+  background:linear-gradient(90deg,var(--primary),#22c55e);
+}
+
+.kpi-label{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:10px;
+}
+
+.kpi-value{
+  font-size:32px;
+  font-weight:800;
+  letter-spacing:-1px;
+}
+
+.filters{
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(8px);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
   padding:16px;
-  border-radius:16px;
-  box-shadow:0 4px 15px rgba(0,0,0,.06);
   display:grid;
   grid-template-columns:2fr 1fr 1fr 1fr;
   gap:12px;
-  margin-bottom:20px;
+  margin-bottom:22px;
 }
 
 input,
 select,
 textarea{
   width:100%;
-  padding:11px 12px;
-  border:1px solid #d9e0ea;
-  border-radius:10px;
-  font-size:14px;
+  border:1px solid #d8e0ea;
   background:white;
+  border-radius:12px;
+  padding:12px 13px;
+  font-size:14px;
   outline:none;
 }
 
 input:focus,
 select:focus,
 textarea:focus{
-  border-color:#16a34a;
-  box-shadow:0 0 0 3px rgba(22,163,74,.12);
+  border-color:var(--primary);
+  box-shadow:0 0 0 4px rgba(22,163,74,.12);
 }
 
-.table-card{
-  background:white;
-  border-radius:16px;
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(330px,1fr));
+  gap:18px;
+}
+
+.property-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  padding:20px;
+  transition:.2s ease;
+  position:relative;
   overflow:hidden;
-  box-shadow:0 4px 15px rgba(0,0,0,.08);
 }
 
-.table-scroll{
-  overflow:auto;
+.property-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 18px 44px rgba(15,23,42,.12);
 }
 
-table{
-  width:100%;
-  border-collapse:collapse;
-  min-width:980px;
+.property-card:before{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  width:7px;
+  height:100%;
+  background:var(--primary);
 }
 
-th{
-  background:#1e293b;
-  color:white;
-  padding:15px;
+.card-head{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.property-name{
+  font-size:22px;
+  font-weight:800;
+  margin-bottom:7px;
+}
+
+.property-id{
+  color:var(--muted);
+  font-size:13px;
+  direction:ltr;
   text-align:right;
-  font-size:14px;
-  white-space:nowrap;
 }
 
-td{
-  padding:14px 15px;
-  border-bottom:1px solid #eef2f7;
-  font-size:14px;
-  vertical-align:middle;
-}
-
-tr:hover td{
-  background:#f8fafc;
-}
-
-.badge{
-  display:inline-block;
-  padding:5px 10px;
+.status-badge{
+  align-self:flex-start;
+  padding:7px 11px;
   border-radius:999px;
   font-size:12px;
-  font-weight:bold;
+  font-weight:800;
   white-space:nowrap;
 }
 
-.badge-green{
+.status-active{
   background:#dcfce7;
   color:#166534;
 }
 
-.badge-gray{
-  background:#e5e7eb;
-  color:#374151;
+.status-inactive{
+  background:#fee2e2;
+  color:#991b1b;
 }
 
-.action-btn{
-  border:none;
-  padding:8px 12px;
-  border-radius:8px;
-  cursor:pointer;
-  color:white;
+.location{
+  color:#475569;
+  font-size:14px;
+  margin-bottom:14px;
+}
+
+.badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:16px;
+}
+
+.badge{
+  padding:7px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.badge-type{
+  background:#eef2ff;
+  color:#3730a3;
+}
+
+.badge-rental{
+  background:#fff7ed;
+  color:#9a3412;
+}
+
+.badge-rental.units{
+  background:#eff6ff;
+  color:#1d4ed8;
+}
+
+.metrics{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.metric{
+  background:#f8fafc;
+  border:1px solid #eef2f7;
+  border-radius:16px;
+  padding:12px;
+}
+
+.metric-title{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.metric-value{
+  font-size:20px;
+  font-weight:800;
+}
+
+.owner{
+  background:#f8fafc;
+  border:1px dashed #cbd5e1;
+  padding:11px 12px;
+  border-radius:16px;
+  color:#475569;
   font-size:13px;
-  margin-inline-start:4px;
+  margin-bottom:16px;
 }
 
-.view-btn{
-  background:#2563eb;
+.card-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
 }
 
-.edit-btn{
-  background:#f59e0b;
+.action{
+  border:0;
+  border-radius:11px;
+  padding:10px 12px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:700;
+}
+
+.action-units{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.action-contracts{
+  background:#e0f2fe;
+  color:#075985;
+}
+
+.action-edit{
+  background:#fef3c7;
+  color:#92400e;
 }
 
 .empty-state{
-  padding:30px;
+  grid-column:1/-1;
+  background:white;
+  border:1px dashed #cbd5e1;
+  border-radius:24px;
+  padding:45px;
   text-align:center;
-  color:#64748b;
+  color:var(--muted);
 }
 
-.modal{
+.drawer-backdrop{
   display:none;
   position:fixed;
   inset:0;
   background:rgba(15,23,42,.55);
-  justify-content:center;
-  align-items:center;
-  padding:20px;
   z-index:1000;
 }
 
-.modal-content{
+.drawer{
+  position:fixed;
+  top:0;
+  left:0;
+  width:520px;
+  max-width:94vw;
+  height:100vh;
   background:white;
-  width:920px;
-  max-width:98%;
-  max-height:92vh;
-  overflow:auto;
-  padding:26px;
-  border-radius:18px;
-  box-shadow:0 24px 60px rgba(0,0,0,.25);
+  z-index:1001;
+  transform:translateX(-110%);
+  transition:.25s ease;
+  box-shadow:20px 0 60px rgba(15,23,42,.24);
+  display:flex;
+  flex-direction:column;
 }
 
-.modal-header{
+.drawer.open{
+  transform:translateX(0);
+}
+
+.drawer-header{
+  padding:22px;
+  border-bottom:1px solid var(--line);
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:15px;
-  margin-bottom:24px;
 }
 
-.modal-header h2{
+.drawer-header h2{
   font-size:24px;
 }
 
-.close-x{
-  background:#f1f5f9;
-  border:none;
-  width:36px;
-  height:36px;
-  border-radius:10px;
+.close{
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:12px;
   cursor:pointer;
-  font-size:18px;
+  font-size:20px;
+  background:#f1f5f9;
 }
 
-.form-section{
-  border:1px solid #eef2f7;
-  border-radius:14px;
-  padding:18px;
+.drawer-body{
+  padding:20px 22px;
+  overflow:auto;
+  flex:1;
+}
+
+.section{
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
   margin-bottom:16px;
 }
 
-.form-section h3{
-  font-size:18px;
-  margin-bottom:16px;
-  color:#1e293b;
+.section h3{
+  margin-bottom:14px;
+  font-size:17px;
 }
 
 .grid{
   display:grid;
   grid-template-columns:1fr 1fr;
-  gap:15px;
+  gap:13px;
 }
 
 .field label{
   display:block;
+  font-weight:700;
   margin-bottom:7px;
-  font-weight:bold;
-  font-size:14px;
+  font-size:13px;
 }
 
 .required{
-  color:#dc2626;
+  color:var(--red);
 }
 
 textarea{
-  min-height:95px;
+  min-height:100px;
   resize:vertical;
 }
 
-.actions{
-  margin-top:20px;
+.drawer-actions{
+  padding:16px 22px;
+  border-top:1px solid var(--line);
   display:flex;
   gap:10px;
-  justify-content:flex-start;
   flex-wrap:wrap;
 }
 
 .message{
   display:none;
-  margin-bottom:15px;
+  margin-bottom:14px;
   padding:12px 14px;
-  border-radius:10px;
+  border-radius:12px;
   font-size:14px;
 }
 
@@ -301,40 +484,52 @@ textarea{
   color:#991b1b;
 }
 
-.loading{
-  padding:25px;
-  text-align:center;
-  color:#64748b;
+@media(max-width:1000px){
+  .kpis{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .filters{
+    grid-template-columns:1fr 1fr;
+  }
 }
 
-@media(max-width:900px){
-  body{
-    padding:15px;
+@media(max-width:700px){
+  .page{
+    padding:16px;
   }
 
-  .topbar{
+  .header{
     flex-direction:column;
-    align-items:stretch;
   }
 
-  .user-box{
-    justify-content:space-between;
+  .header-actions{
+    width:100%;
   }
 
-  .toolbar{
-    grid-template-columns:1fr;
+  .header-actions .btn,
+  .user-pill{
+    flex:1;
+    text-align:center;
   }
 
+  .kpis,
+  .filters,
   .grid{
     grid-template-columns:1fr;
   }
 
-  .modal-content{
-    padding:18px;
+  .cards{
+    grid-template-columns:1fr;
   }
 
-  .title-block h1{
-    font-size:26px;
+  .drawer{
+    width:100%;
+    max-width:100%;
+  }
+
+  .property-name{
+    font-size:20px;
   }
 }
 </style>
@@ -352,33 +547,54 @@ if(!currentUser){
 
 <div class="page">
 
-  <div class="topbar">
-    <div class="title-block">
+  <div class="header">
+    <div class="title">
       <h1>العقارات</h1>
-      <p>إدارة بيانات العقارات وربطها لاحقاً بالعدادات والوحدات والعقود</p>
+      <p>إدارة العقارات وربطها لاحقاً بالوحدات والعقود والعدادات</p>
     </div>
 
-    <div class="user-box">
-      <div class="user-info">
-        <div id="userName"></div>
-        <div id="userRole"></div>
+    <div class="header-actions">
+      <div class="user-pill">
+        <strong id="userName"></strong>
+        <span id="userRole"></span>
       </div>
-
-      <button class="btn btn-secondary" onclick="goHome()">الرئيسية</button>
-      <button class="btn btn-danger" onclick="logout()">تسجيل الخروج</button>
-      <button class="btn" onclick="openModal()">إضافة عقار</button>
+      <button class="btn btn-dark" onclick="goHome()">الرئيسية</button>
+      <button class="btn btn-danger" onclick="logout()">خروج</button>
+      <button class="btn btn-primary" onclick="openDrawer()">+ إضافة عقار</button>
     </div>
   </div>
 
-  <div class="toolbar">
-    <input id="searchInput" type="text" placeholder="بحث باسم العقار أو الرقم أو الحي..." onkeyup="applyFilters()">
+  <div class="kpis">
+    <div class="kpi">
+      <div class="kpi-label">إجمالي العقارات</div>
+      <div class="kpi-value" id="kpiTotal">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">العقارات النشطة</div>
+      <div class="kpi-value" id="kpiActive">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">تأجير وحدات</div>
+      <div class="kpi-value" id="kpiUnitsMode">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">إجمالي الوحدات</div>
+      <div class="kpi-value" id="kpiUnits">0</div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <input id="searchInput" type="text" placeholder="ابحث باسم العقار أو الرقم أو الحي..." onkeyup="applyFilters()">
 
     <select id="filterPropertyType" onchange="applyFilters()">
-      <option value="">كل أنواع العقارات</option>
+      <option value="">كل الأنواع</option>
     </select>
 
-    <select id="filterRentalMode" onchange="applyFilters()">
-      <option value="">كل أنماط التأجير</option>
+    <select id="filterCity" onchange="applyFilters()">
+      <option value="">كل المدن</option>
     </select>
 
     <select id="filterStatus" onchange="applyFilters()">
@@ -386,46 +602,25 @@ if(!currentUser){
     </select>
   </div>
 
-  <div class="table-card">
-    <div class="table-scroll">
-      <table>
-        <thead>
-          <tr>
-            <th>الرقم</th>
-            <th>العقار</th>
-            <th>النوع</th>
-            <th>المدينة</th>
-            <th>الحي</th>
-            <th>نمط التأجير</th>
-            <th>عدد الوحدات</th>
-            <th>الأدوار</th>
-            <th>الحالة</th>
-            <th>العمليات</th>
-          </tr>
-        </thead>
-
-        <tbody id="propertiesTable">
-          <tr>
-            <td colspan="10" class="loading">جاري تحميل البيانات...</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
+  <div class="cards" id="propertiesCards">
+    <div class="empty-state">جاري تحميل العقارات...</div>
   </div>
 
 </div>
 
-<div class="modal" id="modal">
-  <div class="modal-content">
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeDrawer()"></div>
 
-    <div class="modal-header">
-      <h2>إضافة عقار</h2>
-      <button class="close-x" onclick="closeModal()">×</button>
-    </div>
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <h2>إضافة عقار</h2>
+    <button class="close" onclick="closeDrawer()">×</button>
+  </div>
+
+  <div class="drawer-body">
 
     <div id="formMessage" class="message"></div>
 
-    <div class="form-section">
+    <div class="section">
       <h3>بيانات العقار</h3>
 
       <div class="grid">
@@ -451,7 +646,7 @@ if(!currentUser){
       </div>
     </div>
 
-    <div class="form-section">
+    <div class="section">
       <h3>الموقع</h3>
 
       <div class="grid">
@@ -472,7 +667,7 @@ if(!currentUser){
       </div>
     </div>
 
-    <div class="form-section">
+    <div class="section">
       <h3>بيانات الملكية</h3>
 
       <div class="grid">
@@ -488,7 +683,7 @@ if(!currentUser){
       </div>
     </div>
 
-    <div class="form-section">
+    <div class="section">
       <h3>بيانات المالك</h3>
 
       <div class="grid">
@@ -504,33 +699,33 @@ if(!currentUser){
       </div>
     </div>
 
-    <div class="form-section">
+    <div class="section">
       <h3>بيانات التشغيل</h3>
 
       <div class="grid">
         <div class="field">
           <label>عدد الوحدات</label>
-          <input id="plannedUnitsCount" type="number" min="0" placeholder="مثال: 12">
+          <input id="plannedUnitsCount" type="number" min="0">
         </div>
 
         <div class="field">
           <label>عدد الأدوار</label>
-          <input id="floorsCount" type="number" min="0" placeholder="مثال: 4">
+          <input id="floorsCount" type="number" min="0">
         </div>
       </div>
     </div>
 
-    <div class="form-section">
+    <div class="section">
       <h3>ملاحظات</h3>
-      <textarea id="notes" placeholder="أي ملاحظات إضافية عن العقار"></textarea>
+      <textarea id="notes" placeholder="أي ملاحظات إضافية"></textarea>
     </div>
 
-    <div class="actions">
-      <button class="btn" id="saveBtn" onclick="saveProperty()">حفظ العقار</button>
-      <button class="btn btn-light" onclick="resetForm()">تفريغ الحقول</button>
-      <button class="btn btn-danger" onclick="closeModal()">إلغاء</button>
-    </div>
+  </div>
 
+  <div class="drawer-actions">
+    <button class="btn btn-primary" id="saveBtn" onclick="saveProperty()">حفظ العقار</button>
+    <button class="btn btn-light" onclick="resetForm()">تفريغ</button>
+    <button class="btn btn-danger" onclick="closeDrawer()">إلغاء</button>
   </div>
 </div>
 
@@ -541,7 +736,7 @@ const API_URL =
 let properties = [];
 
 document.getElementById("userName").innerText = currentUser?.name || "";
-document.getElementById("userRole").innerText = currentUser?.role || "";
+document.getElementById("userRole").innerText = " - " + (currentUser?.role || "");
 
 initPage();
 
@@ -566,15 +761,14 @@ async function loadLookups(){
     fillLookup("PropertyStatus","status","اختر الحالة"),
     fillLookup("Cities","city","اختر المدينة"),
 
-    fillLookup("PropertyType","filterPropertyType","كل أنواع العقارات", true),
-    fillLookup("RentalMode","filterRentalMode","كل أنماط التأجير", true),
+    fillLookup("PropertyType","filterPropertyType","كل الأنواع", true),
+    fillLookup("Cities","filterCity","كل المدن", true),
     fillLookup("PropertyStatus","filterStatus","كل الحالات", true)
   ]);
 }
 
 async function fillLookup(category, elementId, placeholder, keepPlaceholder){
   const element = document.getElementById(elementId);
-
   if(!element) return;
 
   element.innerHTML = `<option value="">${placeholder}</option>`;
@@ -593,10 +787,6 @@ async function fillLookup(category, elementId, placeholder, keepPlaceholder){
         }
       });
     }
-
-    if(!keepPlaceholder && element.options.length > 1){
-      element.selectedIndex = 0;
-    }
   }
   catch(error){
     console.error("Lookup Error:", category, error);
@@ -604,146 +794,150 @@ async function fillLookup(category, elementId, placeholder, keepPlaceholder){
 }
 
 async function loadProperties(){
-  const table = document.getElementById("propertiesTable");
-
-  table.innerHTML = `
-    <tr>
-      <td colspan="10" class="loading">جاري تحميل البيانات...</td>
-    </tr>
-  `;
+  const container = document.getElementById("propertiesCards");
+  container.innerHTML = `<div class="empty-state">جاري تحميل العقارات...</div>`;
 
   try{
     const response = await fetch(API_URL + "?action=getProperties");
     const data = await response.json();
 
     if(!data.success){
-      table.innerHTML = `
-        <tr>
-          <td colspan="10" class="empty-state">تعذر تحميل العقارات</td>
-        </tr>
-      `;
+      container.innerHTML = `<div class="empty-state">تعذر تحميل العقارات</div>`;
       return;
     }
 
     properties = data.properties || [];
+    updateKpis(properties);
     renderProperties(properties);
   }
   catch(error){
     console.error(error);
-
-    table.innerHTML = `
-      <tr>
-        <td colspan="10" class="empty-state">حدث خطأ أثناء الاتصال بالنظام</td>
-      </tr>
-    `;
+    container.innerHTML = `<div class="empty-state">حدث خطأ أثناء الاتصال بالنظام</div>`;
   }
 }
 
-function renderProperties(items){
-  const table = document.getElementById("propertiesTable");
+function updateKpis(items){
+  const total = items.length;
+  const active = items.filter(p => p.Status === "نشط").length;
+  const unitsMode = items.filter(p => p.RentalMode === "تأجير وحدات").length;
+  const units = items.reduce((sum,p) => sum + Number(p.PlannedUnitsCount || 0), 0);
 
-  table.innerHTML = "";
+  document.getElementById("kpiTotal").innerText = total;
+  document.getElementById("kpiActive").innerText = active;
+  document.getElementById("kpiUnitsMode").innerText = unitsMode;
+  document.getElementById("kpiUnits").innerText = units;
+}
+
+function renderProperties(items){
+  const container = document.getElementById("propertiesCards");
+  container.innerHTML = "";
 
   if(!items || items.length === 0){
-    table.innerHTML = `
-      <tr>
-        <td colspan="10" class="empty-state">لا توجد عقارات مسجلة</td>
-      </tr>
-    `;
+    container.innerHTML = `<div class="empty-state">لا توجد عقارات مطابقة</div>`;
     return;
   }
 
   items.forEach(property => {
-    const statusClass =
-      property.Status === "نشط" ? "badge-green" : "badge-gray";
+    const isActive = property.Status === "نشط";
+    const isUnits = property.RentalMode === "تأجير وحدات";
 
-    table.innerHTML += `
-      <tr>
-        <td>${escapeHtml(property.PropertyID || "")}</td>
-        <td>${escapeHtml(property.PropertyName || "")}</td>
-        <td>${escapeHtml(property.PropertyType || "")}</td>
-        <td>${escapeHtml(property.City || "")}</td>
-        <td>${escapeHtml(property.District || "")}</td>
-        <td>${escapeHtml(property.RentalMode || "")}</td>
-        <td>${escapeHtml(property.PlannedUnitsCount || "0")}</td>
-        <td>${escapeHtml(property.FloorsCount || "0")}</td>
-        <td>
-          <span class="badge ${statusClass}">
+    container.innerHTML += `
+      <div class="property-card">
+        <div class="card-head">
+          <div>
+            <div class="property-name">${escapeHtml(property.PropertyName || "")}</div>
+            <div class="property-id">${escapeHtml(property.PropertyID || "")}</div>
+          </div>
+
+          <span class="status-badge ${isActive ? "status-active" : "status-inactive"}">
             ${escapeHtml(property.Status || "")}
           </span>
-        </td>
-        <td>
-          <button class="action-btn view-btn" onclick="viewProperty('${escapeAttr(property.PropertyID || "")}')">عرض</button>
-          <button class="action-btn edit-btn" onclick="editProperty('${escapeAttr(property.PropertyID || "")}')">تعديل</button>
-        </td>
-      </tr>
+        </div>
+
+        <div class="location">
+          📍 ${escapeHtml(property.City || "")} ${property.District ? "• " + escapeHtml(property.District) : ""}
+        </div>
+
+        <div class="badges">
+          <span class="badge badge-type">${escapeHtml(property.PropertyType || "")}</span>
+          <span class="badge badge-rental ${isUnits ? "units" : ""}">
+            ${escapeHtml(property.RentalMode || "")}
+          </span>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="metric-title">عدد الوحدات</div>
+            <div class="metric-value">${escapeHtml(property.PlannedUnitsCount || "0")}</div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-title">عدد الأدوار</div>
+            <div class="metric-value">${escapeHtml(property.FloorsCount || "0")}</div>
+          </div>
+        </div>
+
+        <div class="owner">
+          👤 المالك: ${escapeHtml(property.OwnerName || "غير محدد")}
+        </div>
+
+        <div class="card-actions">
+          <button class="action action-units" onclick="openUnits('${escapeAttr(property.PropertyID || "")}')">الوحدات</button>
+          <button class="action action-contracts" onclick="openContracts('${escapeAttr(property.PropertyID || "")}')">العقود</button>
+          <button class="action action-edit" onclick="editProperty('${escapeAttr(property.PropertyID || "")}')">تعديل</button>
+        </div>
+      </div>
     `;
   });
 }
 
 function applyFilters(){
-  const keyword =
-    document.getElementById("searchInput").value.trim().toLowerCase();
-
-  const type =
-    document.getElementById("filterPropertyType").value;
-
-  const rentalMode =
-    document.getElementById("filterRentalMode").value;
-
-  const status =
-    document.getElementById("filterStatus").value;
+  const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+  const type = document.getElementById("filterPropertyType").value;
+  const city = document.getElementById("filterCity").value;
+  const status = document.getElementById("filterStatus").value;
 
   const filtered = properties.filter(p => {
-    const searchable = [
+    const text = [
       p.PropertyID,
       p.PropertyName,
       p.PropertyType,
       p.City,
       p.District,
       p.RentalMode,
-      p.Status
+      p.Status,
+      p.OwnerName
     ].join(" ").toLowerCase();
 
     return (
-      (!keyword || searchable.includes(keyword)) &&
+      (!keyword || text.includes(keyword)) &&
       (!type || p.PropertyType === type) &&
-      (!rentalMode || p.RentalMode === rentalMode) &&
+      (!city || p.City === city) &&
       (!status || p.Status === status)
     );
   });
 
+  updateKpis(filtered);
   renderProperties(filtered);
 }
 
-function openModal(){
+function openDrawer(){
   clearMessage();
-  document.getElementById("modal").style.display = "flex";
+  document.getElementById("drawerBackdrop").style.display = "block";
+  document.getElementById("drawer").classList.add("open");
 }
 
-function closeModal(){
-  document.getElementById("modal").style.display = "none";
+function closeDrawer(){
+  document.getElementById("drawerBackdrop").style.display = "none";
+  document.getElementById("drawer").classList.remove("open");
 }
 
 function resetForm(){
-  const fields = [
-    "propertyName",
-    "propertyType",
-    "rentalMode",
-    "status",
-    "city",
-    "district",
-    "address",
-    "deedNo",
-    "deedDate",
-    "ownerName",
-    "ownerMobile",
-    "plannedUnitsCount",
-    "floorsCount",
-    "notes"
-  ];
-
-  fields.forEach(id => {
+  [
+    "propertyName","propertyType","rentalMode","status",
+    "city","district","address","deedNo","deedDate",
+    "ownerName","ownerMobile","plannedUnitsCount","floorsCount","notes"
+  ].forEach(id => {
     const el = document.getElementById(id);
     if(el) el.value = "";
   });
@@ -752,21 +946,21 @@ function resetForm(){
 }
 
 function validateForm(){
-  const requiredFields = [
-    { id:"propertyName", label:"اسم العقار" },
-    { id:"propertyType", label:"نوع العقار" },
-    { id:"rentalMode", label:"نمط التأجير" },
-    { id:"status", label:"الحالة" },
-    { id:"city", label:"المدينة" },
-    { id:"district", label:"الحي" }
+  const fields = [
+    ["propertyName","اسم العقار"],
+    ["propertyType","نوع العقار"],
+    ["rentalMode","نمط التأجير"],
+    ["status","الحالة"],
+    ["city","المدينة"],
+    ["district","الحي"]
   ];
 
-  for(const field of requiredFields){
-    const value = document.getElementById(field.id).value.trim();
+  for(const [id,label] of fields){
+    const el = document.getElementById(id);
 
-    if(!value){
-      showMessage("يرجى تعبئة حقل: " + field.label, "error");
-      document.getElementById(field.id).focus();
+    if(!el.value.trim()){
+      showMessage("يرجى تعبئة حقل: " + label, "error");
+      el.focus();
       return false;
     }
   }
@@ -804,12 +998,12 @@ async function saveProperty(){
     const result = await response.json();
 
     if(result.success){
-      showMessage("تم حفظ العقار بنجاح. رقم العقار: " + result.propertyId, "success");
+      showMessage("تم حفظ العقار بنجاح: " + result.propertyId, "success");
       await loadProperties();
       resetForm();
 
       setTimeout(() => {
-        closeModal();
+        closeDrawer();
       }, 900);
     }
     else{
@@ -827,24 +1021,28 @@ async function saveProperty(){
 }
 
 function getValue(id){
-  const element = document.getElementById(id);
-  return element ? element.value.trim() : "";
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : "";
 }
 
-function showMessage(text, type){
-  const message = document.getElementById("formMessage");
-  message.className = "message " + type;
-  message.innerText = text;
+function showMessage(text,type){
+  const msg = document.getElementById("formMessage");
+  msg.className = "message " + type;
+  msg.innerText = text;
 }
 
 function clearMessage(){
-  const message = document.getElementById("formMessage");
-  message.className = "message";
-  message.innerText = "";
+  const msg = document.getElementById("formMessage");
+  msg.className = "message";
+  msg.innerText = "";
 }
 
-function viewProperty(id){
-  alert("تفاصيل العقار: " + id);
+function openUnits(id){
+  window.location.href = "units.html?propertyId=" + encodeURIComponent(id);
+}
+
+function openContracts(id){
+  alert("العقود للعقار: " + id + " - سيتم تفعيلها لاحقاً");
 }
 
 function editProperty(id){
