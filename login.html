@@ -6,46 +6,40 @@
 
 <title>تسجيل الدخول</title>
 
-<style>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
 
+<style>
 body{
-font-family:Tahoma;
-background:#f5f7fb;
-display:flex;
-justify-content:center;
-align-items:center;
-height:100vh;
+  font-family:Tahoma,sans-serif;
+  background:#f5f7fb;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  margin:0;
 }
 
 .card{
-background:white;
-padding:30px;
-width:350px;
-border-radius:15px;
-box-shadow:0 5px 20px rgba(0,0,0,.1);
+  background:white;
+  padding:40px;
+  width:400px;
+  border-radius:20px;
+  box-shadow:0 5px 20px rgba(0,0,0,.1);
+  text-align:center;
 }
 
-input{
-width:100%;
-padding:12px;
-margin-bottom:12px;
-border:1px solid #ddd;
-border-radius:8px;
+h1{
+  margin-bottom:30px;
 }
 
-button{
-width:100%;
-padding:12px;
-border:none;
-background:#16a34a;
-color:white;
-font-size:16px;
-border-radius:8px;
-cursor:pointer;
+#userInfo{
+  margin-top:20px;
+  display:none;
 }
 
-#result{
-margin-top:15px;
+.success{
+  color:#16a34a;
+  font-weight:bold;
 }
 </style>
 </head>
@@ -54,44 +48,58 @@ margin-top:15px;
 
 <div class="card">
 
-<h2>تسجيل الدخول</h2>
+<h1>نظام إدارة العقارات</h1>
 
-<input id="email" type="email" value="s.al3ssiri@gmail.com">
+<div
+  id="g_id_onload"
+  data-client_id="1088052386307-70o0hm64ehh7kmjm4vrbgua5o2i80fgj.apps.googleusercontent.com"
+  data-callback="handleCredentialResponse">
+</div>
 
-<input id="password" type="password" value="admin123">
+<div
+  class="g_id_signin"
+  data-type="standard"
+  data-size="large"
+  data-theme="outline"
+  data-text="signin_with"
+  data-shape="rectangular"
+  data-logo_alignment="left">
+</div>
 
-<button onclick="login()">دخول</button>
-
-<div id="result"></div>
+<div id="userInfo"></div>
 
 </div>
 
 <script>
 
-const API_URL =
-"https://script.google.com/macros/s/AKfycbw0dKIj7sUmNUBkWEwjCN61pyDcqrMmmLIfZhvIk3qIkiHDCrW2PNWUEN_2N9TIX-I6Yg/exec";
+function parseJwt(token) {
 
-async function login(){
+  const base64Url = token.split('.')[1];
+  const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
 
-const response = await fetch(API_URL,{
-method:"POST",
-headers:{
-"Content-Type":"application/json"
-},
-body:JSON.stringify({
-action:"login",
-email:document.getElementById("email").value,
-password:document.getElementById("password").value
-})
-});
-
-const data = await response.json();
-
-document.getElementById("result").innerHTML =
-"<pre>"+JSON.stringify(data,null,2)+"</pre>";
-
+  return JSON.parse(atob(base64));
 }
 
+function handleCredentialResponse(response) {
+
+  const user = parseJwt(response.credential);
+
+  console.log(user);
+
+  document.getElementById("userInfo").style.display = "block";
+
+  document.getElementById("userInfo").innerHTML = `
+    <p class="success">تم تسجيل الدخول بنجاح</p>
+    <p>${user.name}</p>
+    <p>${user.email}</p>
+  `;
+
+  localStorage.setItem("userEmail", user.email);
+  localStorage.setItem("userName", user.name);
+
+  // هنا سنضيف التحقق من Users Sheet لاحقاً
+
+}
 </script>
 
 </body>
