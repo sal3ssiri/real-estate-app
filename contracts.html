@@ -1,0 +1,1408 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>العقود</title>
+
+<style>
+:root{
+  --bg:#f6f8fb;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --line:#e5eaf1;
+  --primary:#16a34a;
+  --navy:#0f172a;
+  --blue:#2563eb;
+  --orange:#f59e0b;
+  --red:#dc2626;
+  --purple:#7c3aed;
+  --shadow:0 14px 35px rgba(15,23,42,.08);
+  --radius:20px;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Tahoma,Arial,sans-serif;
+}
+
+body{
+  background:
+    radial-gradient(circle at top left, rgba(22,163,74,.08), transparent 30%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+.page{
+  max-width:1440px;
+  margin:0 auto;
+  padding:28px;
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+  margin-bottom:20px;
+}
+
+.title h1{
+  font-size:34px;
+  letter-spacing:-.5px;
+  margin-bottom:8px;
+}
+
+.title p{
+  color:var(--muted);
+  font-size:15px;
+}
+
+.header-actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.user-pill{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:10px 14px;
+  box-shadow:0 6px 18px rgba(15,23,42,.05);
+  font-size:13px;
+  color:var(--muted);
+}
+
+.btn{
+  border:0;
+  border-radius:12px;
+  padding:12px 18px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:700;
+  transition:.2s ease;
+  white-space:nowrap;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  opacity:.95;
+}
+
+.btn-primary{
+  background:var(--primary);
+  color:white;
+}
+
+.btn-dark{
+  background:var(--navy);
+  color:white;
+}
+
+.btn-light{
+  background:#e2e8f0;
+  color:#0f172a;
+}
+
+.btn-danger{
+  background:var(--red);
+  color:white;
+}
+
+.hero{
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:white;
+  border-radius:24px;
+  padding:24px;
+  margin-bottom:18px;
+  box-shadow:var(--shadow);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:18px;
+  overflow:hidden;
+  position:relative;
+}
+
+.hero:before{
+  content:"";
+  position:absolute;
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  background:rgba(22,163,74,.22);
+  top:-110px;
+  left:-80px;
+}
+
+.hero-main{
+  position:relative;
+  z-index:1;
+}
+
+.hero-main h2{
+  font-size:28px;
+  margin-bottom:8px;
+}
+
+.hero-main p{
+  color:#cbd5e1;
+  font-size:14px;
+}
+
+.hero-summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  position:relative;
+  z-index:1;
+  min-width:390px;
+}
+
+.hero-mini{
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:16px;
+  padding:13px;
+  text-align:center;
+}
+
+.hero-mini span{
+  display:block;
+  color:#cbd5e1;
+  font-size:12px;
+  margin-bottom:7px;
+}
+
+.hero-mini strong{
+  font-size:23px;
+}
+
+.kpis{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-bottom:18px;
+}
+
+.kpi{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+
+.kpi:before{
+  content:"";
+  position:absolute;
+  inset:auto 0 0 0;
+  height:4px;
+  background:linear-gradient(90deg,var(--primary),#22c55e);
+}
+
+.kpi-label{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:10px;
+}
+
+.kpi-value{
+  font-size:28px;
+  font-weight:800;
+  letter-spacing:-1px;
+}
+
+.filters{
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(8px);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:16px;
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr;
+  gap:12px;
+  margin-bottom:22px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  border:1px solid #d8e0ea;
+  background:white;
+  border-radius:12px;
+  padding:12px 13px;
+  font-size:14px;
+  outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 4px rgba(22,163,74,.12);
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(380px,1fr));
+  gap:18px;
+}
+
+.contract-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  padding:20px;
+  transition:.2s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.contract-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 18px 44px rgba(15,23,42,.12);
+}
+
+.contract-card:before{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  width:7px;
+  height:100%;
+  background:var(--primary);
+}
+
+.contract-card.draft:before{
+  background:var(--orange);
+}
+
+.contract-card.ended:before{
+  background:#64748b;
+}
+
+.contract-card.cancelled:before{
+  background:var(--red);
+}
+
+.card-head{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.contract-title{
+  font-size:22px;
+  font-weight:800;
+  margin-bottom:7px;
+}
+
+.contract-id{
+  color:var(--muted);
+  font-size:13px;
+  direction:ltr;
+  text-align:right;
+}
+
+.status-badge{
+  align-self:flex-start;
+  padding:7px 11px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.status-active{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.status-ended{
+  background:#e5e7eb;
+  color:#374151;
+}
+
+.status-cancelled{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.status-draft{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:16px;
+}
+
+.badge{
+  padding:7px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.badge-blue{
+  background:#eff6ff;
+  color:#1d4ed8;
+}
+
+.badge-purple{
+  background:#f3e8ff;
+  color:#6d28d9;
+}
+
+.badge-green{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.badge-gray{
+  background:#f8fafc;
+  color:#334155;
+  border:1px solid #e2e8f0;
+}
+
+.party-box{
+  background:#f8fafc;
+  border:1px dashed #cbd5e1;
+  padding:12px;
+  border-radius:16px;
+  color:#475569;
+  font-size:13px;
+  margin-bottom:14px;
+  line-height:1.9;
+}
+
+.details{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.detail{
+  background:#f8fafc;
+  border:1px solid #eef2f7;
+  border-radius:16px;
+  padding:12px;
+}
+
+.detail-title{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.detail-value{
+  font-size:16px;
+  font-weight:800;
+  word-break:break-word;
+}
+
+.money{
+  color:#166534;
+}
+
+.services{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.service{
+  background:#f8fafc;
+  border:1px solid #eef2f7;
+  border-radius:16px;
+  padding:11px 12px;
+  font-size:13px;
+}
+
+.card-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.action{
+  border:0;
+  border-radius:11px;
+  padding:10px 12px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:700;
+}
+
+.action-payments{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.action-edit{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.empty-state{
+  grid-column:1/-1;
+  background:white;
+  border:1px dashed #cbd5e1;
+  border-radius:24px;
+  padding:45px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.drawer-backdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.55);
+  z-index:1000;
+}
+
+.drawer{
+  position:fixed;
+  top:0;
+  left:0;
+  width:620px;
+  max-width:96vw;
+  height:100vh;
+  background:white;
+  z-index:1001;
+  transform:translateX(-110%);
+  transition:.25s ease;
+  box-shadow:20px 0 60px rgba(15,23,42,.24);
+  display:flex;
+  flex-direction:column;
+}
+
+.drawer.open{
+  transform:translateX(0);
+}
+
+.drawer-header{
+  padding:22px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.drawer-header h2{
+  font-size:24px;
+}
+
+.close{
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:20px;
+  background:#f1f5f9;
+}
+
+.drawer-body{
+  padding:20px 22px;
+  overflow:auto;
+  flex:1;
+}
+
+.section{
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:16px;
+}
+
+.section h3{
+  margin-bottom:14px;
+  font-size:17px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.field label{
+  display:block;
+  font-weight:700;
+  margin-bottom:7px;
+  font-size:13px;
+}
+
+.required{
+  color:var(--red);
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.drawer-actions{
+  padding:16px 22px;
+  border-top:1px solid var(--line);
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.message{
+  display:none;
+  margin-bottom:14px;
+  padding:12px 14px;
+  border-radius:12px;
+  font-size:14px;
+}
+
+.message.success{
+  display:block;
+  background:#dcfce7;
+  color:#166534;
+}
+
+.message.error{
+  display:block;
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+@media(max-width:1100px){
+  .kpis{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .filters{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .hero{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .hero-summary{
+    min-width:0;
+  }
+}
+
+@media(max-width:700px){
+  .page{
+    padding:16px;
+  }
+
+  .header{
+    flex-direction:column;
+  }
+
+  .header-actions{
+    width:100%;
+  }
+
+  .header-actions .btn,
+  .user-pill{
+    flex:1;
+    text-align:center;
+  }
+
+  .kpis,
+  .filters,
+  .grid,
+  .hero-summary,
+  .details,
+  .services{
+    grid-template-columns:1fr;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .drawer{
+    width:100%;
+    max-width:100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<script>
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+if(!currentUser){
+  window.location.href = "login.html";
+}
+</script>
+
+<div class="page">
+
+  <div class="header">
+    <div class="title">
+      <h1>العقود</h1>
+      <p>إدارة عقود الإيجار وربط العقار والوحدة والمستأجر والمدفوعات</p>
+    </div>
+
+    <div class="header-actions">
+      <div class="user-pill">
+        <strong id="userName"></strong>
+        <span id="userRole"></span>
+      </div>
+      <button class="btn btn-dark" onclick="goHome()">الرئيسية</button>
+      <button class="btn btn-danger" onclick="logout()">خروج</button>
+      <button class="btn btn-primary" onclick="openDrawer()">+ إضافة عقد</button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-main">
+      <h2>سجل العقود</h2>
+      <p>تتبع العقود السارية والمنتهية وربطها بالمستأجرين والوحدات والمدفوعات.</p>
+    </div>
+
+    <div class="hero-summary">
+      <div class="hero-mini">
+        <span>سارية</span>
+        <strong id="summaryActive">0</strong>
+      </div>
+
+      <div class="hero-mini">
+        <span>تنتهي خلال 60 يوم</span>
+        <strong id="summaryEndingSoon">0</strong>
+      </div>
+
+      <div class="hero-mini">
+        <span>الإيجار السنوي</span>
+        <strong id="summaryAnnualRent">0</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi">
+      <div class="kpi-label">إجمالي العقود</div>
+      <div class="kpi-value" id="kpiTotal">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">العقود السارية</div>
+      <div class="kpi-value" id="kpiActive">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">العقود المنتهية</div>
+      <div class="kpi-value" id="kpiEnded">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">إجمالي الإيجار السنوي</div>
+      <div class="kpi-value" id="kpiAnnualRent">0</div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <input id="searchInput" type="text" placeholder="ابحث برقم العقد أو المستأجر أو العقار أو الوحدة..." onkeyup="applyFilters()">
+
+    <select id="filterProperty" onchange="applyFilters()">
+      <option value="">كل العقارات</option>
+    </select>
+
+    <select id="filterStatus" onchange="applyFilters()">
+      <option value="">كل الحالات</option>
+    </select>
+
+    <select id="filterFrequency" onchange="applyFilters()">
+      <option value="">كل دوريات السداد</option>
+    </select>
+  </div>
+
+  <div class="cards" id="contractsCards">
+    <div class="empty-state">جاري تحميل العقود...</div>
+  </div>
+
+</div>
+
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeDrawer()"></div>
+
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <h2>إضافة عقد</h2>
+    <button class="close" onclick="closeDrawer()">×</button>
+  </div>
+
+  <div class="drawer-body">
+
+    <div id="formMessage" class="message"></div>
+
+    <div class="section">
+      <h3>الأطراف</h3>
+
+      <div class="grid">
+        <div class="field">
+          <label>العقار <span class="required">*</span></label>
+          <select id="propertyId" onchange="onPropertyChange()"></select>
+        </div>
+
+        <div class="field">
+          <label>الوحدة <span class="required">*</span></label>
+          <select id="unitId"></select>
+        </div>
+
+        <div class="field" style="grid-column:1/-1">
+          <label>المستأجر <span class="required">*</span></label>
+          <select id="tenantId"></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>بيانات العقد</h3>
+
+      <div class="grid">
+        <div class="field">
+          <label>رقم عقد إيجار</label>
+          <input id="ejarContractNo" placeholder="رقم عقد منصة إيجار">
+        </div>
+
+        <div class="field">
+          <label>الحالة <span class="required">*</span></label>
+          <select id="contractStatus"></select>
+        </div>
+
+        <div class="field">
+          <label>تاريخ البداية <span class="required">*</span></label>
+          <input id="startDate" type="date">
+        </div>
+
+        <div class="field">
+          <label>تاريخ النهاية <span class="required">*</span></label>
+          <input id="endDate" type="date">
+        </div>
+
+        <div class="field">
+          <label>الإيجار السنوي <span class="required">*</span></label>
+          <input id="annualRent" type="number" min="0" placeholder="مثال: 30000">
+        </div>
+
+        <div class="field">
+          <label>دورية السداد <span class="required">*</span></label>
+          <select id="paymentFrequency"></select>
+        </div>
+
+        <div class="field">
+          <label>التأمين</label>
+          <input id="securityDeposit" type="number" min="0" placeholder="مثال: 2000">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>الخدمات</h3>
+
+      <div class="grid">
+        <div class="field">
+          <label>مسؤولية الكهرباء <span class="required">*</span></label>
+          <select id="electricityResponsibility"></select>
+        </div>
+
+        <div class="field">
+          <label>مسؤولية المياه <span class="required">*</span></label>
+          <select id="waterResponsibility"></select>
+        </div>
+
+        <div class="field" style="grid-column:1/-1">
+          <label>رقم حساب الكهرباء</label>
+          <input id="electricityAccountNo" placeholder="اختياري">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>ملاحظات</h3>
+      <textarea id="notes" placeholder="أي ملاحظات إضافية"></textarea>
+    </div>
+
+  </div>
+
+  <div class="drawer-actions">
+    <button class="btn btn-primary" id="saveBtn" onclick="saveContract()">حفظ العقد</button>
+    <button class="btn btn-light" onclick="resetForm()">تفريغ</button>
+    <button class="btn btn-danger" onclick="closeDrawer()">إلغاء</button>
+  </div>
+</div>
+
+<script>
+const API_URL =
+"https://script.google.com/macros/s/AKfycbw0dKIj7sUmNUBkWEwjCN61pyDcqrMmmLIfZhvIk3qIkiHDCrW2PNWUEN_2N9TIX-I6Yg/exec";
+
+let contracts = [];
+let properties = [];
+let units = [];
+let tenants = [];
+
+document.getElementById("userName").innerText = currentUser?.name || "";
+document.getElementById("userRole").innerText = " - " + (currentUser?.role || "");
+
+initPage();
+
+async function initPage(){
+  await loadLookups();
+  await Promise.all([
+    loadProperties(),
+    loadTenants(),
+    loadAllUnits()
+  ]);
+  await loadContracts();
+}
+
+function logout(){
+  localStorage.removeItem("currentUser");
+  window.location.href = "login.html";
+}
+
+function goHome(){
+  window.location.href = "index.html";
+}
+
+async function loadLookups(){
+  await Promise.all([
+    fillLookup("ContractStatus","contractStatus","اختر حالة العقد"),
+    fillLookup("PaymentFrequency","paymentFrequency","اختر دورية السداد"),
+    fillLookup("UtilityResponsibility","electricityResponsibility","اختر المسؤولية"),
+    fillLookup("UtilityResponsibility","waterResponsibility","اختر المسؤولية"),
+
+    fillLookup("ContractStatus","filterStatus","كل الحالات"),
+    fillLookup("PaymentFrequency","filterFrequency","كل دوريات السداد")
+  ]);
+}
+
+async function fillLookup(category, elementId, placeholder){
+  const element = document.getElementById(elementId);
+  if(!element) return;
+
+  element.innerHTML = `<option value="">${placeholder}</option>`;
+
+  try{
+    const response = await fetch(
+      API_URL + "?action=getLookupValues&category=" + encodeURIComponent(category)
+    );
+
+    const data = await response.json();
+
+    if(data.success && Array.isArray(data.values)){
+      data.values.forEach(value => {
+        if(value !== ""){
+          element.innerHTML += `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`;
+        }
+      });
+    }
+  }
+  catch(error){
+    console.error("Lookup Error:", category, error);
+  }
+}
+
+async function loadProperties(){
+  try{
+    const response = await fetch(API_URL + "?action=getProperties");
+    const data = await response.json();
+
+    if(data.success && Array.isArray(data.properties)){
+      properties = data.properties;
+      fillPropertiesDropdown();
+    }
+  }
+  catch(error){
+    console.error("Properties Error:", error);
+  }
+}
+
+function fillPropertiesDropdown(){
+  const propertySelect = document.getElementById("propertyId");
+  const filterProperty = document.getElementById("filterProperty");
+
+  propertySelect.innerHTML = `<option value="">اختر العقار</option>`;
+  filterProperty.innerHTML = `<option value="">كل العقارات</option>`;
+
+  properties.forEach(p => {
+    const text = `${p.PropertyName || p.PropertyID} - ${p.City || ""}`;
+
+    propertySelect.innerHTML += `
+      <option value="${escapeHtml(p.PropertyID || "")}">
+        ${escapeHtml(text)}
+      </option>
+    `;
+
+    filterProperty.innerHTML += `
+      <option value="${escapeHtml(p.PropertyID || "")}">
+        ${escapeHtml(text)}
+      </option>
+    `;
+  });
+}
+
+async function loadTenants(){
+  try{
+    const response = await fetch(API_URL + "?action=getTenants");
+    const data = await response.json();
+
+    if(data.success && Array.isArray(data.tenants)){
+      tenants = data.tenants;
+      fillTenantsDropdown();
+    }
+  }
+  catch(error){
+    console.error("Tenants Error:", error);
+  }
+}
+
+function fillTenantsDropdown(){
+  const select = document.getElementById("tenantId");
+  select.innerHTML = `<option value="">اختر المستأجر</option>`;
+
+  tenants.forEach(t => {
+    const text = `${t.FullName || t.TenantID} - ${t.Mobile || ""}`;
+
+    select.innerHTML += `
+      <option value="${escapeHtml(t.TenantID || "")}">
+        ${escapeHtml(text)}
+      </option>
+    `;
+  });
+}
+
+async function loadAllUnits(){
+  try{
+    const response = await fetch(API_URL + "?action=getUnits");
+    const data = await response.json();
+
+    if(data.success && Array.isArray(data.units)){
+      units = data.units;
+    }
+  }
+  catch(error){
+    console.error("Units Error:", error);
+  }
+}
+
+function onPropertyChange(){
+  const propertyId = document.getElementById("propertyId").value;
+  fillUnitsDropdown(propertyId);
+}
+
+function fillUnitsDropdown(propertyId){
+  const select = document.getElementById("unitId");
+  select.innerHTML = `<option value="">اختر الوحدة</option>`;
+
+  const filteredUnits = units.filter(u =>
+    !propertyId || u.PropertyID === propertyId
+  );
+
+  filteredUnits.forEach(u => {
+    const text = `${u.UnitName || u.UnitNo || u.UnitID} - ${u.UnitType || ""}`;
+
+    select.innerHTML += `
+      <option value="${escapeHtml(u.UnitID || "")}">
+        ${escapeHtml(text)}
+      </option>
+    `;
+  });
+}
+
+async function loadContracts(){
+  const container = document.getElementById("contractsCards");
+  container.innerHTML = `<div class="empty-state">جاري تحميل العقود...</div>`;
+
+  try{
+    const response = await fetch(API_URL + "?action=getContracts");
+    const data = await response.json();
+
+    if(!data.success){
+      container.innerHTML = `<div class="empty-state">تعذر تحميل العقود</div>`;
+      return;
+    }
+
+    contracts = data.contracts || [];
+
+    updateKpis(contracts);
+    renderContracts(contracts);
+  }
+  catch(error){
+    console.error(error);
+    container.innerHTML = `<div class="empty-state">حدث خطأ أثناء الاتصال بالنظام</div>`;
+  }
+}
+
+function updateKpis(items){
+  const total = items.length;
+  const active = items.filter(c => c.ContractStatus === "ساري").length;
+  const ended = items.filter(c => c.ContractStatus === "منتهي").length;
+  const endingSoon = items.filter(c => isEndingSoon(c.EndDate) && c.ContractStatus === "ساري").length;
+  const annualRent = items.reduce((sum,c) => sum + Number(c.AnnualRent || 0), 0);
+
+  document.getElementById("kpiTotal").innerText = total;
+  document.getElementById("kpiActive").innerText = active;
+  document.getElementById("kpiEnded").innerText = ended;
+  document.getElementById("kpiAnnualRent").innerText = formatMoney(annualRent);
+
+  document.getElementById("summaryActive").innerText = active;
+  document.getElementById("summaryEndingSoon").innerText = endingSoon;
+  document.getElementById("summaryAnnualRent").innerText = formatMoney(annualRent);
+}
+
+function renderContracts(items){
+  const container = document.getElementById("contractsCards");
+  container.innerHTML = "";
+
+  if(!items || items.length === 0){
+    container.innerHTML = `<div class="empty-state">لا توجد عقود مسجلة</div>`;
+    return;
+  }
+
+  items.forEach(contract => {
+    const property = getProperty(contract.PropertyID);
+    const unit = getUnit(contract.UnitID);
+    const tenant = getTenant(contract.TenantID);
+    const statusClass = getStatusClass(contract.ContractStatus);
+    const cardClass = getCardClass(contract.ContractStatus);
+
+    container.innerHTML += `
+      <div class="contract-card ${cardClass}">
+        <div class="card-head">
+          <div>
+            <div class="contract-title">عقد إيجار</div>
+            <div class="contract-id">${escapeHtml(contract.ContractID || "")}</div>
+          </div>
+
+          <span class="status-badge ${statusClass}">
+            ${escapeHtml(contract.ContractStatus || "")}
+          </span>
+        </div>
+
+        <div class="badges">
+          <span class="badge badge-blue">إيجار: ${escapeHtml(contract.EjarContractNo || "غير محدد")}</span>
+          <span class="badge badge-purple">${escapeHtml(contract.PaymentFrequency || "")}</span>
+          <span class="badge badge-green">${formatMoney(contract.AnnualRent || 0)} ريال</span>
+        </div>
+
+        <div class="party-box">
+          <strong>المستأجر:</strong> ${escapeHtml(tenant?.FullName || contract.TenantID || "")}<br>
+          <strong>العقار:</strong> ${escapeHtml(property?.PropertyName || contract.PropertyID || "")}<br>
+          <strong>الوحدة:</strong> ${escapeHtml(unit?.UnitName || unit?.UnitNo || contract.UnitID || "")}
+        </div>
+
+        <div class="details">
+          <div class="detail">
+            <div class="detail-title">تاريخ البداية</div>
+            <div class="detail-value">${formatDate(contract.StartDate)}</div>
+          </div>
+
+          <div class="detail">
+            <div class="detail-title">تاريخ النهاية</div>
+            <div class="detail-value">${formatDate(contract.EndDate)}</div>
+          </div>
+
+          <div class="detail">
+            <div class="detail-title">التأمين</div>
+            <div class="detail-value money">${formatMoney(contract.SecurityDeposit || 0)} ريال</div>
+          </div>
+
+          <div class="detail">
+            <div class="detail-title">حساب الكهرباء</div>
+            <div class="detail-value">${escapeHtml(contract.ElectricityAccountNo || "غير محدد")}</div>
+          </div>
+        </div>
+
+        <div class="services">
+          <div class="service">⚡ الكهرباء: <strong>${escapeHtml(contract.ElectricityResponsibility || "")}</strong></div>
+          <div class="service">💧 المياه: <strong>${escapeHtml(contract.WaterResponsibility || "")}</strong></div>
+        </div>
+
+        <div class="card-actions">
+          <button class="action action-payments" onclick="openPayments('${escapeAttr(contract.ContractID || "")}')">المدفوعات</button>
+          <button class="action action-edit" onclick="editContract('${escapeAttr(contract.ContractID || "")}')">تعديل</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function applyFilters(){
+  const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+  const propertyId = document.getElementById("filterProperty").value;
+  const status = document.getElementById("filterStatus").value;
+  const frequency = document.getElementById("filterFrequency").value;
+
+  const filtered = contracts.filter(c => {
+    const property = getProperty(c.PropertyID);
+    const unit = getUnit(c.UnitID);
+    const tenant = getTenant(c.TenantID);
+
+    const text = [
+      c.ContractID,
+      c.EjarContractNo,
+      c.PropertyID,
+      c.UnitID,
+      c.TenantID,
+      property?.PropertyName,
+      unit?.UnitName,
+      unit?.UnitNo,
+      tenant?.FullName,
+      c.ContractStatus,
+      c.PaymentFrequency
+    ].join(" ").toLowerCase();
+
+    return (
+      (!keyword || text.includes(keyword)) &&
+      (!propertyId || c.PropertyID === propertyId) &&
+      (!status || c.ContractStatus === status) &&
+      (!frequency || c.PaymentFrequency === frequency)
+    );
+  });
+
+  updateKpis(filtered);
+  renderContracts(filtered);
+}
+
+function openDrawer(){
+  clearMessage();
+  document.getElementById("drawerBackdrop").style.display = "block";
+  document.getElementById("drawer").classList.add("open");
+}
+
+function closeDrawer(){
+  document.getElementById("drawerBackdrop").style.display = "none";
+  document.getElementById("drawer").classList.remove("open");
+}
+
+function resetForm(){
+  [
+    "propertyId","unitId","tenantId","ejarContractNo",
+    "electricityResponsibility","waterResponsibility",
+    "startDate","endDate","annualRent","paymentFrequency",
+    "securityDeposit","contractStatus","electricityAccountNo","notes"
+  ].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = "";
+  });
+
+  clearMessage();
+}
+
+function validateForm(){
+  const fields = [
+    ["propertyId","العقار"],
+    ["unitId","الوحدة"],
+    ["tenantId","المستأجر"],
+    ["electricityResponsibility","مسؤولية الكهرباء"],
+    ["waterResponsibility","مسؤولية المياه"],
+    ["startDate","تاريخ البداية"],
+    ["endDate","تاريخ النهاية"],
+    ["annualRent","الإيجار السنوي"],
+    ["paymentFrequency","دورية السداد"],
+    ["contractStatus","حالة العقد"]
+  ];
+
+  for(const [id,label] of fields){
+    const el = document.getElementById(id);
+
+    if(!el.value.trim()){
+      showMessage("يرجى تعبئة حقل: " + label, "error");
+      el.focus();
+      return false;
+    }
+  }
+
+  const start = new Date(getValue("startDate"));
+  const end = new Date(getValue("endDate"));
+
+  if(end <= start){
+    showMessage("تاريخ نهاية العقد يجب أن يكون بعد تاريخ البداية", "error");
+    document.getElementById("endDate").focus();
+    return false;
+  }
+
+  return true;
+}
+
+async function saveContract(){
+  if(!validateForm()) return;
+
+  const saveBtn = document.getElementById("saveBtn");
+  saveBtn.disabled = true;
+  saveBtn.innerText = "جاري الحفظ...";
+
+  try{
+    const params = new URLSearchParams({
+      action:"addContract",
+      ejarContractNo:getValue("ejarContractNo"),
+      propertyId:getValue("propertyId"),
+      unitId:getValue("unitId"),
+      tenantId:getValue("tenantId"),
+      electricityResponsibility:getValue("electricityResponsibility"),
+      waterResponsibility:getValue("waterResponsibility"),
+      startDate:getValue("startDate"),
+      endDate:getValue("endDate"),
+      annualRent:getValue("annualRent"),
+      paymentFrequency:getValue("paymentFrequency"),
+      securityDeposit:getValue("securityDeposit"),
+      contractStatus:getValue("contractStatus"),
+      electricityAccountNo:getValue("electricityAccountNo"),
+      notes:getValue("notes")
+    });
+
+    const response = await fetch(API_URL + "?" + params.toString());
+    const result = await response.json();
+
+    if(result.success){
+      showMessage("تم حفظ العقد بنجاح: " + result.contractId, "success");
+      await loadContracts();
+      resetForm();
+
+      setTimeout(() => {
+        closeDrawer();
+      }, 900);
+    }
+    else{
+      showMessage("تعذر حفظ العقد", "error");
+    }
+  }
+  catch(error){
+    console.error(error);
+    showMessage("حدث خطأ أثناء حفظ العقد", "error");
+  }
+  finally{
+    saveBtn.disabled = false;
+    saveBtn.innerText = "حفظ العقد";
+  }
+}
+
+function getProperty(id){
+  return properties.find(p => p.PropertyID === id);
+}
+
+function getUnit(id){
+  return units.find(u => u.UnitID === id);
+}
+
+function getTenant(id){
+  return tenants.find(t => t.TenantID === id);
+}
+
+function getStatusClass(status){
+  if(status === "ساري") return "status-active";
+  if(status === "منتهي") return "status-ended";
+  if(status === "ملغي") return "status-cancelled";
+  if(status === "مسودة") return "status-draft";
+  return "status-ended";
+}
+
+function getCardClass(status){
+  if(status === "منتهي") return "ended";
+  if(status === "ملغي") return "cancelled";
+  if(status === "مسودة") return "draft";
+  return "";
+}
+
+function isEndingSoon(dateValue){
+  if(!dateValue) return false;
+
+  const today = new Date();
+  const end = new Date(dateValue);
+  const diff = end - today;
+  const days = diff / (1000 * 60 * 60 * 24);
+
+  return days >= 0 && days <= 60;
+}
+
+function formatMoney(value){
+  const number = Number(value || 0);
+
+  return number.toLocaleString("en-US", {
+    maximumFractionDigits:0
+  });
+}
+
+function formatDate(value){
+  if(!value){
+    return "غير محدد";
+  }
+
+  const text = String(value);
+
+  if(text.includes("T")){
+    return text.split("T")[0];
+  }
+
+  return text;
+}
+
+function getValue(id){
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : "";
+}
+
+function showMessage(text,type){
+  const msg = document.getElementById("formMessage");
+  msg.className = "message " + type;
+  msg.innerText = text;
+}
+
+function clearMessage(){
+  const msg = document.getElementById("formMessage");
+  msg.className = "message";
+  msg.innerText = "";
+}
+
+function openPayments(contractId){
+  alert("مدفوعات العقد: " + contractId + " - سيتم تفعيلها لاحقاً");
+}
+
+function editContract(contractId){
+  alert("تعديل العقد: " + contractId + " - سيتم تفعيله لاحقاً");
+}
+
+function escapeHtml(value){
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function escapeAttr(value){
+  return String(value)
+    .replaceAll("\\","\\\\")
+    .replaceAll("'","\\'")
+    .replaceAll('"',"&quot;");
+}
+</script>
+
+</body>
+</html>
