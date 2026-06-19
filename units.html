@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>الوحدات</title>
+
+<style>
+:root{
+  --bg:#f6f8fb;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --line:#e5eaf1;
+  --primary:#16a34a;
+  --navy:#0f172a;
+  --blue:#2563eb;
+  --orange:#f59e0b;
+  --red:#dc2626;
+  --shadow:0 14px 35px rgba(15,23,42,.08);
+  --radius:20px;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Tahoma,Arial,sans-serif;
+}
+
+body{
+  background:
+    radial-gradient(circle at top left, rgba(22,163,74,.08), transparent 30%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+.page{
+  max-width:1440px;
+  margin:0 auto;
+  padding:28px;
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+  margin-bottom:20px;
+}
+
+.title h1{
+  font-size:34px;
+  letter-spacing:-.5px;
+  margin-bottom:8px;
+}
+
+.title p{
+  color:var(--muted);
+  font-size:15px;
+}
+
+.header-actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.user-pill{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:10px 14px;
+  box-shadow:0 6px 18px rgba(15,23,42,.05);
+  font-size:13px;
+  color:var(--muted);
+}
+
+.btn{
+  border:0;
+  border-radius:12px;
+  padding:12px 18px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:700;
+  transition:.2s ease;
+  white-space:nowrap;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  opacity:.95;
+}
+
+.btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.btn-primary{
+  background:var(--primary);
+  color:white;
+}
+
+.btn-dark{
+  background:var(--navy);
+  color:white;
+}
+
+.btn-light{
+  background:#e2e8f0;
+  color:#0f172a;
+}
+
+.btn-danger{
+  background:var(--red);
+  color:white;
+}
+
+.property-strip{
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:white;
+  border-radius:24px;
+  padding:22px;
+  margin-bottom:18px;
+  box-shadow:var(--shadow);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:18px;
+  overflow:hidden;
+  position:relative;
+}
+
+.property-strip:before{
+  content:"";
+  position:absolute;
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  background:rgba(22,163,74,.22);
+  top:-110px;
+  left:-80px;
+}
+
+.property-main{
+  position:relative;
+  z-index:1;
+}
+
+.property-main h2{
+  font-size:26px;
+  margin-bottom:8px;
+}
+
+.property-meta{
+  color:#cbd5e1;
+  font-size:14px;
+}
+
+.property-counts{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  position:relative;
+  z-index:1;
+  min-width:360px;
+}
+
+.property-mini{
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:16px;
+  padding:13px;
+  text-align:center;
+}
+
+.property-mini span{
+  display:block;
+  color:#cbd5e1;
+  font-size:12px;
+  margin-bottom:7px;
+}
+
+.property-mini strong{
+  font-size:23px;
+}
+
+.kpis{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-bottom:18px;
+}
+
+.kpi{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+
+.kpi:before{
+  content:"";
+  position:absolute;
+  inset:auto 0 0 0;
+  height:4px;
+  background:linear-gradient(90deg,var(--primary),#22c55e);
+}
+
+.kpi-label{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:10px;
+}
+
+.kpi-value{
+  font-size:32px;
+  font-weight:800;
+  letter-spacing:-1px;
+}
+
+.filters{
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(8px);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:16px;
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:12px;
+  margin-bottom:22px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  border:1px solid #d8e0ea;
+  background:white;
+  border-radius:12px;
+  padding:12px 13px;
+  font-size:14px;
+  outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 4px rgba(22,163,74,.12);
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(310px,1fr));
+  gap:18px;
+}
+
+.unit-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  padding:20px;
+  transition:.2s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.unit-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 18px 44px rgba(15,23,42,.12);
+}
+
+.unit-card:before{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  width:7px;
+  height:100%;
+  background:var(--blue);
+}
+
+.card-head{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:14px;
+}
+
+.unit-name{
+  font-size:22px;
+  font-weight:800;
+  margin-bottom:7px;
+}
+
+.unit-id{
+  color:var(--muted);
+  font-size:13px;
+  direction:ltr;
+  text-align:right;
+}
+
+.status-badge{
+  align-self:flex-start;
+  padding:7px 11px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.status-rented{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.status-vacant{
+  background:#eff6ff;
+  color:#1d4ed8;
+}
+
+.status-maintenance{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.status-other{
+  background:#e5e7eb;
+  color:#374151;
+}
+
+.badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:16px;
+}
+
+.badge{
+  padding:7px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.badge-type{
+  background:#eef2ff;
+  color:#3730a3;
+}
+
+.badge-floor{
+  background:#f8fafc;
+  color:#334155;
+  border:1px solid #e2e8f0;
+}
+
+.metrics{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.metric{
+  background:#f8fafc;
+  border:1px solid #eef2f7;
+  border-radius:16px;
+  padding:12px;
+}
+
+.metric-title{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.metric-value{
+  font-size:18px;
+  font-weight:800;
+  word-break:break-word;
+}
+
+.meter{
+  background:#f8fafc;
+  border:1px dashed #cbd5e1;
+  padding:11px 12px;
+  border-radius:16px;
+  color:#475569;
+  font-size:13px;
+  margin-bottom:16px;
+  direction:ltr;
+  text-align:right;
+}
+
+.card-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.action{
+  border:0;
+  border-radius:11px;
+  padding:10px 12px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:700;
+}
+
+.action-contract{
+  background:#e0f2fe;
+  color:#075985;
+}
+
+.action-edit{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.empty-state{
+  grid-column:1/-1;
+  background:white;
+  border:1px dashed #cbd5e1;
+  border-radius:24px;
+  padding:45px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.drawer-backdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.55);
+  z-index:1000;
+}
+
+.drawer{
+  position:fixed;
+  top:0;
+  left:0;
+  width:520px;
+  max-width:94vw;
+  height:100vh;
+  background:white;
+  z-index:1001;
+  transform:translateX(-110%);
+  transition:.25s ease;
+  box-shadow:20px 0 60px rgba(15,23,42,.24);
+  display:flex;
+  flex-direction:column;
+}
+
+.drawer.open{
+  transform:translateX(0);
+}
+
+.drawer-header{
+  padding:22px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.drawer-header h2{
+  font-size:24px;
+}
+
+.close{
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:20px;
+  background:#f1f5f9;
+}
+
+.drawer-body{
+  padding:20px 22px;
+  overflow:auto;
+  flex:1;
+}
+
+.section{
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:16px;
+}
+
+.section h3{
+  margin-bottom:14px;
+  font-size:17px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.field label{
+  display:block;
+  font-weight:700;
+  margin-bottom:7px;
+  font-size:13px;
+}
+
+.required{
+  color:var(--red);
+}
+
+textarea{
+  min-height:100px;
+  resize:vertical;
+}
+
+.drawer-actions{
+  padding:16px 22px;
+  border-top:1px solid var(--line);
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.message{
+  display:none;
+  margin-bottom:14px;
+  padding:12px 14px;
+  border-radius:12px;
+  font-size:14px;
+}
+
+.message.success{
+  display:block;
+  background:#dcfce7;
+  color:#166534;
+}
+
+.message.error{
+  display:block;
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+@media(max-width:1000px){
+  .kpis{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .filters{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .property-strip{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .property-counts{
+    min-width:0;
+  }
+}
+
+@media(max-width:700px){
+  .page{
+    padding:16px;
+  }
+
+  .header{
+    flex-direction:column;
+  }
+
+  .header-actions{
+    width:100%;
+  }
+
+  .header-actions .btn,
+  .user-pill{
+    flex:1;
+    text-align:center;
+  }
+
+  .kpis,
+  .filters,
+  .grid,
+  .property-counts{
+    grid-template-columns:1fr;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .drawer{
+    width:100%;
+    max-width:100%;
+  }
+
+  .unit-name{
+    font-size:20px;
+  }
+
+  .property-main h2{
+    font-size:22px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<script>
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+if(!currentUser){
+  window.location.href = "login.html";
+}
+</script>
+
+<div class="page">
+
+  <div class="header">
+    <div class="title">
+      <h1>الوحدات</h1>
+      <p>إدارة وحدات العقار وربطها بالعقود لاحقاً</p>
+    </div>
+
+    <div class="header-actions">
+      <div class="user-pill">
+        <strong id="userName"></strong>
+        <span id="userRole"></span>
+      </div>
+      <button class="btn btn-dark" onclick="goProperties()">العقارات</button>
+      <button class="btn btn-danger" onclick="logout()">خروج</button>
+      <button class="btn btn-primary" id="addUnitBtn" onclick="openDrawer()">+ إضافة وحدة</button>
+    </div>
+  </div>
+
+  <div class="property-strip">
+    <div class="property-main">
+      <h2 id="propertyName">جاري تحميل العقار...</h2>
+      <div class="property-meta" id="propertyMeta"></div>
+    </div>
+
+    <div class="property-counts">
+      <div class="property-mini">
+        <span>الوحدات المخططة</span>
+        <strong id="plannedCount">0</strong>
+      </div>
+
+      <div class="property-mini">
+        <span>المسجلة حالياً</span>
+        <strong id="currentCount">0</strong>
+      </div>
+
+      <div class="property-mini">
+        <span>المتبقي</span>
+        <strong id="remainingCount">0</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi">
+      <div class="kpi-label">إجمالي الوحدات</div>
+      <div class="kpi-value" id="kpiTotal">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">المؤجرة</div>
+      <div class="kpi-value" id="kpiRented">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">الشاغرة</div>
+      <div class="kpi-value" id="kpiVacant">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">نسبة الإشغال</div>
+      <div class="kpi-value" id="kpiOccupancy">0%</div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <input id="searchInput" type="text" placeholder="ابحث برقم الوحدة أو اسمها أو العداد..." onkeyup="applyFilters()">
+
+    <select id="filterUnitType" onchange="applyFilters()">
+      <option value="">كل الأنواع</option>
+    </select>
+
+    <select id="filterUnitStatus" onchange="applyFilters()">
+      <option value="">كل الحالات</option>
+    </select>
+  </div>
+
+  <div class="cards" id="unitsCards">
+    <div class="empty-state">جاري تحميل الوحدات...</div>
+  </div>
+
+</div>
+
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeDrawer()"></div>
+
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <h2>إضافة وحدة</h2>
+    <button class="close" onclick="closeDrawer()">×</button>
+  </div>
+
+  <div class="drawer-body">
+
+    <div id="formMessage" class="message"></div>
+
+    <div class="section">
+      <h3>بيانات الوحدة</h3>
+
+      <div class="grid">
+        <div class="field">
+          <label>رقم الوحدة <span class="required">*</span></label>
+          <input id="unitNo" placeholder="مثال: 101 أو G01">
+        </div>
+
+        <div class="field">
+          <label>اسم الوحدة <span class="required">*</span></label>
+          <input id="unitName" placeholder="مثال: شقة 101">
+        </div>
+
+        <div class="field">
+          <label>نوع الوحدة <span class="required">*</span></label>
+          <select id="unitType"></select>
+        </div>
+
+        <div class="field">
+          <label>حالة الوحدة <span class="required">*</span></label>
+          <select id="unitStatus"></select>
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>المساحة والموقع داخل العقار</h3>
+
+      <div class="grid">
+        <div class="field">
+          <label>الدور</label>
+          <input id="floorNo" type="number" min="0" placeholder="مثال: 1">
+        </div>
+
+        <div class="field">
+          <label>المساحة م²</label>
+          <input id="area" type="number" min="0" placeholder="مثال: 120">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>عداد الكهرباء</h3>
+
+      <div class="field">
+        <label>عداد الكهرباء</label>
+        <select id="electricityMeterId">
+          <option value="">بدون عداد حالياً</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>ملاحظات</h3>
+      <textarea id="notes" placeholder="أي ملاحظات إضافية"></textarea>
+    </div>
+
+  </div>
+
+  <div class="drawer-actions">
+    <button class="btn btn-primary" id="saveBtn" onclick="saveUnit()">حفظ الوحدة</button>
+    <button class="btn btn-light" onclick="resetForm()">تفريغ</button>
+    <button class="btn btn-danger" onclick="closeDrawer()">إلغاء</button>
+  </div>
+</div>
+
+<script>
+const API_URL =
+"https://script.google.com/macros/s/AKfycbw0dKIj7sUmNUBkWEwjCN61pyDcqrMmmLIfZhvIk3qIkiHDCrW2PNWUEN_2N9TIX-I6Yg/exec";
+
+let property = null;
+let units = [];
+let meters = [];
+
+const propertyId =
+  new URLSearchParams(window.location.search).get("propertyId");
+
+if(!propertyId){
+  alert("لم يتم تحديد العقار");
+  window.location.href = "properties.html";
+}
+
+document.getElementById("userName").innerText = currentUser?.name || "";
+document.getElementById("userRole").innerText = " - " + (currentUser?.role || "");
+
+initPage();
+
+async function initPage(){
+  await loadLookups();
+  await loadProperty();
+  await loadMeters();
+  await loadUnits();
+}
+
+function logout(){
+  localStorage.removeItem("currentUser");
+  window.location.href = "login.html";
+}
+
+function goProperties(){
+  window.location.href = "properties.html";
+}
+
+async function loadLookups(){
+  await Promise.all([
+    fillLookup("UnitType","unitType","اختر نوع الوحدة"),
+    fillLookup("UnitStatus","unitStatus","اختر حالة الوحدة"),
+
+    fillLookup("UnitType","filterUnitType","كل الأنواع", true),
+    fillLookup("UnitStatus","filterUnitStatus","كل الحالات", true)
+  ]);
+}
+
+async function fillLookup(category, elementId, placeholder){
+  const element = document.getElementById(elementId);
+  if(!element) return;
+
+  element.innerHTML = `<option value="">${placeholder}</option>`;
+
+  try{
+    const response = await fetch(
+      API_URL + "?action=getLookupValues&category=" + encodeURIComponent(category)
+    );
+
+    const data = await response.json();
+
+    if(data.success && Array.isArray(data.values)){
+      data.values.forEach(value => {
+        if(value !== ""){
+          element.innerHTML += `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`;
+        }
+      });
+    }
+  }
+  catch(error){
+    console.error("Lookup Error:", category, error);
+  }
+}
+
+async function loadProperty(){
+  try{
+    const response = await fetch(
+      API_URL + "?action=getPropertyById&propertyId=" + encodeURIComponent(propertyId)
+    );
+
+    const data = await response.json();
+
+    if(!data.success){
+      alert("تعذر العثور على العقار");
+      window.location.href = "properties.html";
+      return;
+    }
+
+    property = data.property;
+
+    document.getElementById("propertyName").innerText =
+      property.PropertyName || "";
+
+    document.getElementById("propertyMeta").innerText =
+      `${property.PropertyID || ""} • ${property.PropertyType || ""} • ${property.City || ""} ${property.District ? "• " + property.District : ""}`;
+
+    document.getElementById("plannedCount").innerText =
+      Number(property.PlannedUnitsCount || 0);
+  }
+  catch(error){
+    console.error(error);
+    alert("حدث خطأ أثناء تحميل بيانات العقار");
+  }
+}
+
+async function loadMeters(){
+  const select = document.getElementById("electricityMeterId");
+
+  select.innerHTML = `<option value="">بدون عداد حالياً</option>`;
+
+  try{
+    const response = await fetch(
+      API_URL + "?action=getMeters&propertyId=" + encodeURIComponent(propertyId)
+    );
+
+    const data = await response.json();
+
+    if(data.success && Array.isArray(data.meters)){
+      meters = data.meters;
+
+      const electricityMeters =
+        meters.filter(m =>
+          m.MeterType === "كهرباء" ||
+          m.MeterType === "Electricity"
+        );
+
+      electricityMeters.forEach(meter => {
+        const text =
+          (meter.MeterID || "") +
+          (meter.MeterNumber ? " - " + meter.MeterNumber : "");
+
+        select.innerHTML += `
+          <option value="${escapeHtml(meter.MeterID || "")}">
+            ${escapeHtml(text)}
+          </option>
+        `;
+      });
+    }
+  }
+  catch(error){
+    console.warn("Meters API not ready or no meters sheet:", error);
+  }
+}
+
+async function loadUnits(){
+  const container = document.getElementById("unitsCards");
+  container.innerHTML = `<div class="empty-state">جاري تحميل الوحدات...</div>`;
+
+  try{
+    const response = await fetch(
+      API_URL + "?action=getUnits&propertyId=" + encodeURIComponent(propertyId)
+    );
+
+    const data = await response.json();
+
+    if(!data.success){
+      container.innerHTML = `<div class="empty-state">تعذر تحميل الوحدات</div>`;
+      return;
+    }
+
+    units = data.units || [];
+
+    updateCounters();
+    updateKpis(units);
+    renderUnits(units);
+  }
+  catch(error){
+    console.error(error);
+    container.innerHTML = `<div class="empty-state">حدث خطأ أثناء الاتصال بالنظام</div>`;
+  }
+}
+
+function updateCounters(){
+  const planned = Number(property?.PlannedUnitsCount || 0);
+  const current = units.length;
+  const remaining = Math.max(planned - current, 0);
+
+  document.getElementById("currentCount").innerText = current;
+  document.getElementById("remainingCount").innerText = remaining;
+
+  const addBtn = document.getElementById("addUnitBtn");
+
+  if(planned > 0 && current >= planned){
+    addBtn.disabled = true;
+    addBtn.innerText = "تم اكتمال الوحدات";
+  }
+  else{
+    addBtn.disabled = false;
+    addBtn.innerText = "+ إضافة وحدة";
+  }
+}
+
+function updateKpis(items){
+  const total = items.length;
+  const rented = items.filter(u => u.UnitStatus === "مؤجرة").length;
+  const vacant = items.filter(u => u.UnitStatus === "شاغرة").length;
+  const occupancy = total ? Math.round((rented / total) * 100) : 0;
+
+  document.getElementById("kpiTotal").innerText = total;
+  document.getElementById("kpiRented").innerText = rented;
+  document.getElementById("kpiVacant").innerText = vacant;
+  document.getElementById("kpiOccupancy").innerText = occupancy + "%";
+}
+
+function renderUnits(items){
+  const container = document.getElementById("unitsCards");
+  container.innerHTML = "";
+
+  if(!items || items.length === 0){
+    container.innerHTML = `<div class="empty-state">لا توجد وحدات مسجلة لهذا العقار</div>`;
+    return;
+  }
+
+  items.forEach(unit => {
+    const statusClass = getStatusClass(unit.UnitStatus);
+
+    container.innerHTML += `
+      <div class="unit-card">
+        <div class="card-head">
+          <div>
+            <div class="unit-name">${escapeHtml(unit.UnitName || unit.UnitNo || "")}</div>
+            <div class="unit-id">${escapeHtml(unit.UnitID || "")}</div>
+          </div>
+
+          <span class="status-badge ${statusClass}">
+            ${escapeHtml(unit.UnitStatus || "")}
+          </span>
+        </div>
+
+        <div class="badges">
+          <span class="badge badge-type">${escapeHtml(unit.UnitType || "")}</span>
+          <span class="badge badge-floor">الدور ${escapeHtml(unit.FloorNo || "0")}</span>
+        </div>
+
+        <div class="metrics">
+          <div class="metric">
+            <div class="metric-title">رقم الوحدة</div>
+            <div class="metric-value">${escapeHtml(unit.UnitNo || "")}</div>
+          </div>
+
+          <div class="metric">
+            <div class="metric-title">المساحة</div>
+            <div class="metric-value">${escapeHtml(unit.Area || "0")} م²</div>
+          </div>
+        </div>
+
+        <div class="meter">
+          ⚡ ${escapeHtml(unit.ElectricityMeterID || "لا يوجد عداد محدد")}
+        </div>
+
+        <div class="card-actions">
+          <button class="action action-contract" onclick="openContract('${escapeAttr(unit.UnitID || "")}')">العقد</button>
+          <button class="action action-edit" onclick="editUnit('${escapeAttr(unit.UnitID || "")}')">تعديل</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function getStatusClass(status){
+  if(status === "مؤجرة") return "status-rented";
+  if(status === "شاغرة") return "status-vacant";
+  if(status === "صيانة") return "status-maintenance";
+  return "status-other";
+}
+
+function applyFilters(){
+  const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+  const type = document.getElementById("filterUnitType").value;
+  const status = document.getElementById("filterUnitStatus").value;
+
+  const filtered = units.filter(u => {
+    const text = [
+      u.UnitID,
+      u.UnitNo,
+      u.UnitName,
+      u.UnitType,
+      u.FloorNo,
+      u.Area,
+      u.ElectricityMeterID,
+      u.UnitStatus
+    ].join(" ").toLowerCase();
+
+    return (
+      (!keyword || text.includes(keyword)) &&
+      (!type || u.UnitType === type) &&
+      (!status || u.UnitStatus === status)
+    );
+  });
+
+  updateKpis(filtered);
+  renderUnits(filtered);
+}
+
+function openDrawer(){
+  const planned = Number(property?.PlannedUnitsCount || 0);
+
+  if(planned > 0 && units.length >= planned){
+    alert("تم الوصول إلى عدد الوحدات المحدد في بيانات العقار. قم بتعديل العقار أولاً إذا أردت إضافة وحدات جديدة.");
+    return;
+  }
+
+  clearMessage();
+  document.getElementById("drawerBackdrop").style.display = "block";
+  document.getElementById("drawer").classList.add("open");
+}
+
+function closeDrawer(){
+  document.getElementById("drawerBackdrop").style.display = "none";
+  document.getElementById("drawer").classList.remove("open");
+}
+
+function resetForm(){
+  [
+    "unitNo","unitName","unitType","floorNo","area",
+    "electricityMeterId","unitStatus","notes"
+  ].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = "";
+  });
+
+  clearMessage();
+}
+
+function validateForm(){
+  const fields = [
+    ["unitNo","رقم الوحدة"],
+    ["unitName","اسم الوحدة"],
+    ["unitType","نوع الوحدة"],
+    ["unitStatus","حالة الوحدة"]
+  ];
+
+  for(const [id,label] of fields){
+    const el = document.getElementById(id);
+
+    if(!el.value.trim()){
+      showMessage("يرجى تعبئة حقل: " + label, "error");
+      el.focus();
+      return false;
+    }
+  }
+
+  const planned = Number(property?.PlannedUnitsCount || 0);
+
+  if(planned > 0 && units.length >= planned){
+    showMessage("لا يمكن إضافة وحدة جديدة. تم الوصول إلى عدد الوحدات المحدد في العقار.", "error");
+    return false;
+  }
+
+  return true;
+}
+
+async function saveUnit(){
+  if(!validateForm()) return;
+
+  const saveBtn = document.getElementById("saveBtn");
+  saveBtn.disabled = true;
+  saveBtn.innerText = "جاري الحفظ...";
+
+  try{
+    const params = new URLSearchParams({
+      action:"addUnit",
+      propertyId:propertyId,
+      unitNo:getValue("unitNo"),
+      unitName:getValue("unitName"),
+      unitType:getValue("unitType"),
+      floorNo:getValue("floorNo"),
+      area:getValue("area"),
+      electricityMeterId:getValue("electricityMeterId"),
+      unitStatus:getValue("unitStatus"),
+      notes:getValue("notes")
+    });
+
+    const response = await fetch(API_URL + "?" + params.toString());
+    const result = await response.json();
+
+    if(result.success){
+      showMessage("تم حفظ الوحدة بنجاح: " + result.unitId, "success");
+      await loadUnits();
+      resetForm();
+
+      setTimeout(() => {
+        closeDrawer();
+      }, 900);
+    }
+    else{
+      showMessage("تعذر حفظ الوحدة", "error");
+    }
+  }
+  catch(error){
+    console.error(error);
+    showMessage("حدث خطأ أثناء حفظ الوحدة", "error");
+  }
+  finally{
+    saveBtn.disabled = false;
+    saveBtn.innerText = "حفظ الوحدة";
+  }
+}
+
+function getValue(id){
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : "";
+}
+
+function showMessage(text,type){
+  const msg = document.getElementById("formMessage");
+  msg.className = "message " + type;
+  msg.innerText = text;
+}
+
+function clearMessage(){
+  const msg = document.getElementById("formMessage");
+  msg.className = "message";
+  msg.innerText = "";
+}
+
+function openContract(unitId){
+  alert("عقد الوحدة: " + unitId + " - سيتم تفعيله لاحقاً");
+}
+
+function editUnit(unitId){
+  alert("تعديل الوحدة: " + unitId + " - سيتم تفعيله لاحقاً");
+}
+
+function escapeHtml(value){
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function escapeAttr(value){
+  return String(value)
+    .replaceAll("\\","\\\\")
+    .replaceAll("'","\\'")
+    .replaceAll('"',"&quot;");
+}
+</script>
+
+</body>
+</html>
