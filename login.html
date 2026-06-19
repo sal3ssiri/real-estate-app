@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>تسجيل الدخول</title>
+
+<style>
+
+body{
+font-family:Tahoma;
+background:#f5f7fb;
+display:flex;
+justify-content:center;
+align-items:center;
+height:100vh;
+}
+
+.card{
+background:white;
+padding:30px;
+width:350px;
+border-radius:15px;
+box-shadow:0 5px 20px rgba(0,0,0,.1);
+}
+
+input{
+width:100%;
+padding:12px;
+margin-bottom:12px;
+border:1px solid #ddd;
+border-radius:8px;
+}
+
+button{
+width:100%;
+padding:12px;
+border:none;
+background:#16a34a;
+color:white;
+font-size:16px;
+border-radius:8px;
+cursor:pointer;
+}
+
+#result{
+margin-top:15px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card">
+
+<h2>تسجيل الدخول</h2>
+
+<input id="email" type="email" value="s.al3ssiri@gmail.com">
+
+<input id="password" type="password" value="admin123">
+
+<button onclick="login()">دخول</button>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbw0dKIj7sUmNUBkWEwjCN61pyDcqrMmmLIfZhvIk3qIkiHDCrW2PNWUEN_2N9TIX-I6Yg/exec";
+
+async function login(){
+
+const response = await fetch(API_URL,{
+method:"POST",
+headers:{
+"Content-Type":"application/json"
+},
+body:JSON.stringify({
+action:"login",
+email:document.getElementById("email").value,
+password:document.getElementById("password").value
+})
+});
+
+const data = await response.json();
+
+document.getElementById("result").innerHTML =
+"<pre>"+JSON.stringify(data,null,2)+"</pre>";
+
+}
+
+</script>
+
+</body>
+</html>
