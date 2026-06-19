@@ -18,6 +18,7 @@
   --blue:#2563eb;
   --orange:#f59e0b;
   --red:#dc2626;
+  --purple:#7c3aed;
   --shadow:0 14px 35px rgba(15,23,42,.08);
   --radius:20px;
 }
@@ -162,6 +163,46 @@ body{
   font-size:14px;
 }
 
+.property-badge{
+  display:inline-block;
+  background:rgba(255,255,255,.15);
+  border:1px solid rgba(255,255,255,.2);
+  padding:5px 12px;
+  border-radius:999px;
+  font-size:12px;
+  color:white;
+}
+
+.progress-wrapper{
+  margin-top:16px;
+  width:430px;
+  max-width:100%;
+}
+
+.progress-text{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:8px;
+  font-size:13px;
+  color:#cbd5e1;
+}
+
+.progress-bar{
+  height:10px;
+  background:rgba(255,255,255,.15);
+  border-radius:999px;
+  overflow:hidden;
+}
+
+.progress-fill{
+  height:100%;
+  width:0%;
+  background:linear-gradient(90deg,#22c55e,#4ade80);
+  border-radius:999px;
+  transition:.3s ease;
+}
+
 .property-counts{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -192,7 +233,7 @@ body{
 
 .kpis{
   display:grid;
-  grid-template-columns:repeat(4,1fr);
+  grid-template-columns:repeat(3,1fr);
   gap:16px;
   margin-bottom:18px;
 }
@@ -331,8 +372,18 @@ textarea:focus{
 }
 
 .status-maintenance{
-  background:#fef3c7;
-  color:#92400e;
+  background:#fed7aa;
+  color:#9a3412;
+}
+
+.status-reserved{
+  background:#ede9fe;
+  color:#6d28d9;
+}
+
+.status-stopped{
+  background:#fee2e2;
+  color:#991b1b;
 }
 
 .status-other{
@@ -398,9 +449,21 @@ textarea:focus{
   border-radius:16px;
   color:#475569;
   font-size:13px;
-  margin-bottom:16px;
+  margin-bottom:12px;
   direction:ltr;
   text-align:right;
+}
+
+.contracts-indicator{
+  background:#f8fafc;
+  border:1px solid #eef2f7;
+  padding:11px 12px;
+  border-radius:16px;
+  margin-bottom:16px;
+}
+
+.contracts-indicator .metric-title{
+  margin-bottom:5px;
 }
 
 .card-actions{
@@ -654,6 +717,17 @@ if(!currentUser){
     <div class="property-main">
       <h2 id="propertyName">جاري تحميل العقار...</h2>
       <div class="property-meta" id="propertyMeta"></div>
+
+      <div class="progress-wrapper">
+        <div class="progress-text">
+          <span id="progressLabel">0 / 0 وحدة</span>
+          <span id="progressPercent">0%</span>
+        </div>
+
+        <div class="progress-bar">
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
     </div>
 
     <div class="property-counts">
@@ -675,11 +749,6 @@ if(!currentUser){
   </div>
 
   <div class="kpis">
-    <div class="kpi">
-      <div class="kpi-label">إجمالي الوحدات</div>
-      <div class="kpi-value" id="kpiTotal">0</div>
-    </div>
-
     <div class="kpi">
       <div class="kpi-label">المؤجرة</div>
       <div class="kpi-value" id="kpiRented">0</div>
@@ -885,8 +954,13 @@ async function loadProperty(){
     document.getElementById("propertyName").innerText =
       property.PropertyName || "";
 
-    document.getElementById("propertyMeta").innerText =
-      `${property.PropertyID || ""} • ${property.PropertyType || ""} • ${property.City || ""} ${property.District ? "• " + property.District : ""}`;
+    document.getElementById("propertyMeta").innerHTML =
+      `<span class="property-badge">${escapeHtml(property.PropertyID || "")}</span>
+       &nbsp;&nbsp;
+       ${escapeHtml(property.PropertyType || "")}
+       •
+       ${escapeHtml(property.City || "")}
+       ${property.District ? " • " + escapeHtml(property.District) : ""}`;
 
     document.getElementById("plannedCount").innerText =
       Number(property.PlannedUnitsCount || 0);
@@ -967,16 +1041,28 @@ async function loadUnits(){
 function updateCounters(){
   const planned = Number(property?.PlannedUnitsCount || 0);
   const current = units.length;
-  const remaining = Math.max(planned - current, 0);
+  const remaining = Math.max(planned - current,0);
+  const percent = planned > 0
+    ? Math.min(Math.round((current / planned) * 100),100)
+    : 0;
 
   document.getElementById("currentCount").innerText = current;
   document.getElementById("remainingCount").innerText = remaining;
+
+  document.getElementById("progressLabel").innerText =
+    current + " / " + planned + " وحدة";
+
+  document.getElementById("progressPercent").innerText =
+    percent + "%";
+
+  document.getElementById("progressFill").style.width =
+    percent + "%";
 
   const addBtn = document.getElementById("addUnitBtn");
 
   if(planned > 0 && current >= planned){
     addBtn.disabled = true;
-    addBtn.innerText = "تم اكتمال الوحدات";
+    addBtn.innerText = "اكتمل عدد الوحدات";
   }
   else{
     addBtn.disabled = false;
@@ -990,7 +1076,6 @@ function updateKpis(items){
   const vacant = items.filter(u => u.UnitStatus === "شاغرة").length;
   const occupancy = total ? Math.round((rented / total) * 100) : 0;
 
-  document.getElementById("kpiTotal").innerText = total;
   document.getElementById("kpiRented").innerText = rented;
   document.getElementById("kpiVacant").innerText = vacant;
   document.getElementById("kpiOccupancy").innerText = occupancy + "%";
@@ -1042,8 +1127,13 @@ function renderUnits(items){
           ⚡ ${escapeHtml(unit.ElectricityMeterID || "لا يوجد عداد محدد")}
         </div>
 
+        <div class="contracts-indicator">
+          <div class="metric-title">العقود النشطة</div>
+          <div class="metric-value">0</div>
+        </div>
+
         <div class="card-actions">
-          <button class="action action-contract" onclick="openContract('${escapeAttr(unit.UnitID || "")}')">العقد</button>
+          <button class="action action-contract" onclick="openContract('${escapeAttr(unit.UnitID || "")}')">العقود</button>
           <button class="action action-edit" onclick="editUnit('${escapeAttr(unit.UnitID || "")}')">تعديل</button>
         </div>
       </div>
@@ -1055,6 +1145,8 @@ function getStatusClass(status){
   if(status === "مؤجرة") return "status-rented";
   if(status === "شاغرة") return "status-vacant";
   if(status === "صيانة") return "status-maintenance";
+  if(status === "محجوزة") return "status-reserved";
+  if(status === "موقفة") return "status-stopped";
   return "status-other";
 }
 
