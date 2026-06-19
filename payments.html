@@ -1,0 +1,1310 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>المدفوعات</title>
+
+<style>
+:root{
+  --bg:#f6f8fb;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --line:#e5eaf1;
+  --primary:#16a34a;
+  --navy:#0f172a;
+  --blue:#2563eb;
+  --orange:#f59e0b;
+  --red:#dc2626;
+  --purple:#7c3aed;
+  --shadow:0 14px 35px rgba(15,23,42,.08);
+  --radius:20px;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Tahoma,Arial,sans-serif;
+}
+
+body{
+  background:
+    radial-gradient(circle at top left, rgba(22,163,74,.08), transparent 30%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+.page{
+  max-width:1440px;
+  margin:0 auto;
+  padding:28px;
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+  margin-bottom:20px;
+}
+
+.title h1{
+  font-size:34px;
+  letter-spacing:-.5px;
+  margin-bottom:8px;
+}
+
+.title p{
+  color:var(--muted);
+  font-size:15px;
+}
+
+.header-actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.user-pill{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:10px 14px;
+  box-shadow:0 6px 18px rgba(15,23,42,.05);
+  font-size:13px;
+  color:var(--muted);
+}
+
+.btn{
+  border:0;
+  border-radius:12px;
+  padding:12px 18px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:700;
+  transition:.2s ease;
+  white-space:nowrap;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  opacity:.95;
+}
+
+.btn-primary{
+  background:var(--primary);
+  color:white;
+}
+
+.btn-dark{
+  background:var(--navy);
+  color:white;
+}
+
+.btn-light{
+  background:#e2e8f0;
+  color:#0f172a;
+}
+
+.btn-danger{
+  background:var(--red);
+  color:white;
+}
+
+.hero{
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:white;
+  border-radius:24px;
+  padding:24px;
+  margin-bottom:18px;
+  box-shadow:var(--shadow);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:18px;
+  overflow:hidden;
+  position:relative;
+}
+
+.hero:before{
+  content:"";
+  position:absolute;
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  background:rgba(22,163,74,.22);
+  top:-110px;
+  left:-80px;
+}
+
+.hero-main{
+  position:relative;
+  z-index:1;
+}
+
+.hero-main h2{
+  font-size:28px;
+  margin-bottom:8px;
+}
+
+.hero-main p{
+  color:#cbd5e1;
+  font-size:14px;
+}
+
+.hero-summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  position:relative;
+  z-index:1;
+  min-width:390px;
+}
+
+.hero-mini{
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:16px;
+  padding:13px;
+  text-align:center;
+}
+
+.hero-mini span{
+  display:block;
+  color:#cbd5e1;
+  font-size:12px;
+  margin-bottom:7px;
+}
+
+.hero-mini strong{
+  font-size:23px;
+}
+
+.kpis{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-bottom:18px;
+}
+
+.kpi{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+
+.kpi:before{
+  content:"";
+  position:absolute;
+  inset:auto 0 0 0;
+  height:4px;
+  background:linear-gradient(90deg,var(--primary),#22c55e);
+}
+
+.kpi-label{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:10px;
+}
+
+.kpi-value{
+  font-size:28px;
+  font-weight:800;
+  letter-spacing:-1px;
+}
+
+.filters{
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(8px);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:16px;
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:12px;
+  margin-bottom:22px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  border:1px solid #d8e0ea;
+  background:white;
+  border-radius:12px;
+  padding:12px 13px;
+  font-size:14px;
+  outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 4px rgba(22,163,74,.12);
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(350px,1fr));
+  gap:18px;
+}
+
+.payment-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  padding:20px;
+  transition:.2s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.payment-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 18px 44px rgba(15,23,42,.12);
+}
+
+.payment-card:before{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  width:7px;
+  height:100%;
+  background:var(--orange);
+}
+
+.payment-card.paid:before{
+  background:var(--primary);
+}
+
+.payment-card.late:before{
+  background:var(--red);
+}
+
+.payment-card.partial:before{
+  background:var(--blue);
+}
+
+.payment-card.cancelled:before{
+  background:#64748b;
+}
+
+.card-head{
+  display:flex;
+  justify-content:space-between;
+  gap:12px;
+  margin-bottom:16px;
+}
+
+.payment-title{
+  font-size:22px;
+  font-weight:800;
+  margin-bottom:7px;
+}
+
+.payment-id{
+  color:var(--muted);
+  font-size:13px;
+  direction:ltr;
+  text-align:right;
+}
+
+.status-badge{
+  align-self:flex-start;
+  padding:7px 11px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.status-paid{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.status-due{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.status-late{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.status-partial{
+  background:#eff6ff;
+  color:#1d4ed8;
+}
+
+.status-cancelled{
+  background:#e5e7eb;
+  color:#374151;
+}
+
+.badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:16px;
+}
+
+.badge{
+  padding:7px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.badge-blue{
+  background:#eff6ff;
+  color:#1d4ed8;
+}
+
+.badge-green{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.badge-purple{
+  background:#f3e8ff;
+  color:#6d28d9;
+}
+
+.contract-box{
+  background:#f8fafc;
+  border:1px dashed #cbd5e1;
+  padding:12px;
+  border-radius:16px;
+  color:#475569;
+  font-size:13px;
+  margin-bottom:14px;
+  line-height:1.9;
+}
+
+.details{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.detail{
+  background:#f8fafc;
+  border:1px solid #eef2f7;
+  border-radius:16px;
+  padding:12px;
+}
+
+.detail-title{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.detail-value{
+  font-size:16px;
+  font-weight:800;
+  word-break:break-word;
+}
+
+.money{
+  color:#166534;
+}
+
+.remaining{
+  color:#991b1b;
+}
+
+.card-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.action{
+  border:0;
+  border-radius:11px;
+  padding:10px 12px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:700;
+}
+
+.action-receipt{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.action-edit{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.empty-state{
+  grid-column:1/-1;
+  background:white;
+  border:1px dashed #cbd5e1;
+  border-radius:24px;
+  padding:45px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.drawer-backdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.55);
+  z-index:1000;
+}
+
+.drawer{
+  position:fixed;
+  top:0;
+  left:0;
+  width:580px;
+  max-width:96vw;
+  height:100vh;
+  background:white;
+  z-index:1001;
+  transform:translateX(-110%);
+  transition:.25s ease;
+  box-shadow:20px 0 60px rgba(15,23,42,.24);
+  display:flex;
+  flex-direction:column;
+}
+
+.drawer.open{
+  transform:translateX(0);
+}
+
+.drawer-header{
+  padding:22px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.drawer-header h2{
+  font-size:24px;
+}
+
+.close{
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:20px;
+  background:#f1f5f9;
+}
+
+.drawer-body{
+  padding:20px 22px;
+  overflow:auto;
+  flex:1;
+}
+
+.section{
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:16px;
+}
+
+.section h3{
+  margin-bottom:14px;
+  font-size:17px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.field label{
+  display:block;
+  font-weight:700;
+  margin-bottom:7px;
+  font-size:13px;
+}
+
+.required{
+  color:var(--red);
+}
+
+textarea{
+  min-height:90px;
+  resize:vertical;
+}
+
+.drawer-actions{
+  padding:16px 22px;
+  border-top:1px solid var(--line);
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.message{
+  display:none;
+  margin-bottom:14px;
+  padding:12px 14px;
+  border-radius:12px;
+  font-size:14px;
+}
+
+.message.success{
+  display:block;
+  background:#dcfce7;
+  color:#166534;
+}
+
+.message.error{
+  display:block;
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+@media(max-width:1100px){
+  .kpis{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .filters{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .hero{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .hero-summary{
+    min-width:0;
+  }
+}
+
+@media(max-width:700px){
+  .page{
+    padding:16px;
+  }
+
+  .header{
+    flex-direction:column;
+  }
+
+  .header-actions{
+    width:100%;
+  }
+
+  .header-actions .btn,
+  .user-pill{
+    flex:1;
+    text-align:center;
+  }
+
+  .kpis,
+  .filters,
+  .grid,
+  .hero-summary,
+  .details{
+    grid-template-columns:1fr;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .drawer{
+    width:100%;
+    max-width:100%;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<script>
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+if(!currentUser){
+  window.location.href = "login.html";
+}
+</script>
+
+<div class="page">
+
+  <div class="header">
+    <div class="title">
+      <h1>المدفوعات</h1>
+      <p>إدارة المستحقات والتحصيل وربطها بالعقود</p>
+    </div>
+
+    <div class="header-actions">
+      <div class="user-pill">
+        <strong id="userName"></strong>
+        <span id="userRole"></span>
+      </div>
+      <button class="btn btn-dark" onclick="goHome()">الرئيسية</button>
+      <button class="btn btn-dark" onclick="goContracts()">العقود</button>
+      <button class="btn btn-danger" onclick="logout()">خروج</button>
+      <button class="btn btn-primary" onclick="openDrawer()">+ إضافة دفعة</button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-main">
+      <h2>سجل المدفوعات</h2>
+      <p>متابعة المدفوعات المستحقة والمدفوعة والمتأخرة لكل عقد.</p>
+    </div>
+
+    <div class="hero-summary">
+      <div class="hero-mini">
+        <span>إجمالي المستحق</span>
+        <strong id="summaryDue">0</strong>
+      </div>
+
+      <div class="hero-mini">
+        <span>إجمالي المحصل</span>
+        <strong id="summaryPaid">0</strong>
+      </div>
+
+      <div class="hero-mini">
+        <span>المتبقي</span>
+        <strong id="summaryRemaining">0</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi">
+      <div class="kpi-label">إجمالي الدفعات</div>
+      <div class="kpi-value" id="kpiTotal">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">المدفوع</div>
+      <div class="kpi-value" id="kpiPaid">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">المتأخر</div>
+      <div class="kpi-value" id="kpiLate">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">نسبة التحصيل</div>
+      <div class="kpi-value" id="kpiCollection">0%</div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <input id="searchInput" type="text" placeholder="ابحث برقم الدفعة أو العقد أو المرجع..." onkeyup="applyFilters()">
+
+    <select id="filterContract" onchange="applyFilters()">
+      <option value="">كل العقود</option>
+    </select>
+
+    <select id="filterStatus" onchange="applyFilters()">
+      <option value="">كل الحالات</option>
+    </select>
+  </div>
+
+  <div class="cards" id="paymentsCards">
+    <div class="empty-state">جاري تحميل المدفوعات...</div>
+  </div>
+
+</div>
+
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeDrawer()"></div>
+
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <h2>إضافة دفعة</h2>
+    <button class="close" onclick="closeDrawer()">×</button>
+  </div>
+
+  <div class="drawer-body">
+
+    <div id="formMessage" class="message"></div>
+
+    <div class="section">
+      <h3>بيانات العقد والدفعة</h3>
+
+      <div class="grid">
+        <div class="field" style="grid-column:1/-1">
+          <label>العقد <span class="required">*</span></label>
+          <select id="contractId"></select>
+        </div>
+
+        <div class="field">
+          <label>تاريخ الاستحقاق <span class="required">*</span></label>
+          <input id="dueDate" type="date">
+        </div>
+
+        <div class="field">
+          <label>تاريخ السداد</label>
+          <input id="paymentDate" type="date">
+        </div>
+
+        <div class="field">
+          <label>المبلغ المستحق <span class="required">*</span></label>
+          <input id="amount" type="number" min="0" placeholder="مثال: 3000">
+        </div>
+
+        <div class="field">
+          <label>المبلغ المدفوع</label>
+          <input id="paidAmount" type="number" min="0" placeholder="مثال: 3000">
+        </div>
+
+        <div class="field">
+          <label>حالة الدفعة <span class="required">*</span></label>
+          <select id="paymentStatus"></select>
+        </div>
+
+        <div class="field">
+          <label>رقم المرجع</label>
+          <input id="referenceNo" placeholder="رقم حوالة / إيصال / مرجع">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>ملاحظات</h3>
+      <textarea id="notes" placeholder="أي ملاحظات إضافية"></textarea>
+    </div>
+
+  </div>
+
+  <div class="drawer-actions">
+    <button class="btn btn-primary" id="saveBtn" onclick="savePayment()">حفظ الدفعة</button>
+    <button class="btn btn-light" onclick="resetForm()">تفريغ</button>
+    <button class="btn btn-danger" onclick="closeDrawer()">إلغاء</button>
+  </div>
+</div>
+
+<script>
+const API_URL =
+"https://script.google.com/macros/s/AKfycbw0dKIj7sUmNUBkWEwjCN61pyDcqrMmmLIfZhvIk3qIkiHDCrW2PNWUEN_2N9TIX-I6Yg/exec";
+
+let payments = [];
+let contracts = [];
+let properties = [];
+let units = [];
+let tenants = [];
+
+document.getElementById("userName").innerText = currentUser?.name || "";
+document.getElementById("userRole").innerText = " - " + (currentUser?.role || "");
+
+initPage();
+
+async function initPage(){
+  await loadLookups();
+  await Promise.all([
+    loadProperties(),
+    loadUnits(),
+    loadTenants()
+  ]);
+  await loadContracts();
+  await loadPayments();
+}
+
+function logout(){
+  localStorage.removeItem("currentUser");
+  window.location.href = "login.html";
+}
+
+function goHome(){
+  window.location.href = "index.html";
+}
+
+function goContracts(){
+  window.location.href = "contracts.html";
+}
+
+async function loadLookups(){
+  await Promise.all([
+    fillLookup("PaymentStatus","paymentStatus","اختر حالة الدفعة"),
+    fillLookup("PaymentStatus","filterStatus","كل الحالات")
+  ]);
+}
+
+async function fillLookup(category, elementId, placeholder){
+  const element = document.getElementById(elementId);
+  if(!element) return;
+
+  element.innerHTML = `<option value="">${placeholder}</option>`;
+
+  try{
+    const response = await fetch(
+      API_URL + "?action=getLookupValues&category=" + encodeURIComponent(category)
+    );
+
+    const data = await response.json();
+
+    if(data.success && Array.isArray(data.values)){
+      data.values.forEach(value => {
+        if(value !== ""){
+          element.innerHTML += `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`;
+        }
+      });
+    }
+  }
+  catch(error){
+    console.error("Lookup Error:", category, error);
+  }
+}
+
+async function loadProperties(){
+  try{
+    const response = await fetch(API_URL + "?action=getProperties");
+    const data = await response.json();
+    if(data.success && Array.isArray(data.properties)){
+      properties = data.properties;
+    }
+  }
+  catch(error){
+    console.error("Properties Error:", error);
+  }
+}
+
+async function loadUnits(){
+  try{
+    const response = await fetch(API_URL + "?action=getUnits");
+    const data = await response.json();
+    if(data.success && Array.isArray(data.units)){
+      units = data.units;
+    }
+  }
+  catch(error){
+    console.error("Units Error:", error);
+  }
+}
+
+async function loadTenants(){
+  try{
+    const response = await fetch(API_URL + "?action=getTenants");
+    const data = await response.json();
+    if(data.success && Array.isArray(data.tenants)){
+      tenants = data.tenants;
+    }
+  }
+  catch(error){
+    console.error("Tenants Error:", error);
+  }
+}
+
+async function loadContracts(){
+  try{
+    const response = await fetch(API_URL + "?action=getContracts");
+    const data = await response.json();
+
+    if(data.success && Array.isArray(data.contracts)){
+      contracts = data.contracts;
+      fillContractsDropdowns();
+    }
+  }
+  catch(error){
+    console.error("Contracts Error:", error);
+  }
+}
+
+function fillContractsDropdowns(){
+  const contractSelect = document.getElementById("contractId");
+  const filterContract = document.getElementById("filterContract");
+
+  contractSelect.innerHTML = `<option value="">اختر العقد</option>`;
+  filterContract.innerHTML = `<option value="">كل العقود</option>`;
+
+  contracts.forEach(c => {
+    const text = getContractDisplay(c);
+
+    contractSelect.innerHTML += `
+      <option value="${escapeHtml(c.ContractID || "")}">
+        ${escapeHtml(text)}
+      </option>
+    `;
+
+    filterContract.innerHTML += `
+      <option value="${escapeHtml(c.ContractID || "")}">
+        ${escapeHtml(text)}
+      </option>
+    `;
+  });
+}
+
+async function loadPayments(){
+  const container = document.getElementById("paymentsCards");
+  container.innerHTML = `<div class="empty-state">جاري تحميل المدفوعات...</div>`;
+
+  try{
+    const response = await fetch(API_URL + "?action=getPayments");
+    const data = await response.json();
+
+    if(!data.success){
+      container.innerHTML = `<div class="empty-state">تعذر تحميل المدفوعات</div>`;
+      return;
+    }
+
+    payments = data.payments || [];
+
+    updateKpis(payments);
+    renderPayments(payments);
+  }
+  catch(error){
+    console.error(error);
+    container.innerHTML = `<div class="empty-state">حدث خطأ أثناء الاتصال بالنظام</div>`;
+  }
+}
+
+function updateKpis(items){
+  const total = items.length;
+  const totalDue = items.reduce((sum,p) => sum + Number(p.Amount || 0), 0);
+  const totalPaid = items.reduce((sum,p) => sum + Number(p.PaidAmount || 0), 0);
+  const remaining = Math.max(totalDue - totalPaid,0);
+  const late = items.filter(p => p.PaymentStatus === "متأخر").length;
+  const collection = totalDue > 0 ? Math.round((totalPaid / totalDue) * 100) : 0;
+  const paidCount = items.filter(p => p.PaymentStatus === "مدفوع").length;
+
+  document.getElementById("kpiTotal").innerText = total;
+  document.getElementById("kpiPaid").innerText = paidCount;
+  document.getElementById("kpiLate").innerText = late;
+  document.getElementById("kpiCollection").innerText = collection + "%";
+
+  document.getElementById("summaryDue").innerText = formatMoney(totalDue);
+  document.getElementById("summaryPaid").innerText = formatMoney(totalPaid);
+  document.getElementById("summaryRemaining").innerText = formatMoney(remaining);
+}
+
+function renderPayments(items){
+  const container = document.getElementById("paymentsCards");
+  container.innerHTML = "";
+
+  if(!items || items.length === 0){
+    container.innerHTML = `<div class="empty-state">لا توجد مدفوعات مسجلة</div>`;
+    return;
+  }
+
+  items.forEach(payment => {
+    const contract = getContract(payment.ContractID);
+    const property = contract ? getProperty(contract.PropertyID) : null;
+    const unit = contract ? getUnit(contract.UnitID) : null;
+    const tenant = contract ? getTenant(contract.TenantID) : null;
+    const statusClass = getStatusClass(payment.PaymentStatus);
+    const cardClass = getCardClass(payment.PaymentStatus);
+    const remaining = Math.max(Number(payment.Amount || 0) - Number(payment.PaidAmount || 0),0);
+
+    container.innerHTML += `
+      <div class="payment-card ${cardClass}">
+        <div class="card-head">
+          <div>
+            <div class="payment-title">دفعة عقد</div>
+            <div class="payment-id">${escapeHtml(payment.PaymentID || "")}</div>
+          </div>
+
+          <span class="status-badge ${statusClass}">
+            ${escapeHtml(payment.PaymentStatus || "")}
+          </span>
+        </div>
+
+        <div class="badges">
+          <span class="badge badge-blue">${escapeHtml(payment.ContractID || "")}</span>
+          <span class="badge badge-green">${formatMoney(payment.PaidAmount || 0)} ريال مدفوع</span>
+          <span class="badge badge-purple">${formatMoney(payment.Amount || 0)} ريال مستحق</span>
+        </div>
+
+        <div class="contract-box">
+          <strong>المستأجر:</strong> ${escapeHtml(tenant?.FullName || "غير محدد")}<br>
+          <strong>العقار:</strong> ${escapeHtml(property?.PropertyName || "غير محدد")}<br>
+          <strong>الوحدة:</strong> ${escapeHtml(unit?.UnitName || unit?.UnitNo || "غير محدد")}
+        </div>
+
+        <div class="details">
+          <div class="detail">
+            <div class="detail-title">تاريخ الاستحقاق</div>
+            <div class="detail-value">${formatDate(payment.DueDate)}</div>
+          </div>
+
+          <div class="detail">
+            <div class="detail-title">تاريخ السداد</div>
+            <div class="detail-value">${formatDate(payment.PaymentDate)}</div>
+          </div>
+
+          <div class="detail">
+            <div class="detail-title">المتبقي</div>
+            <div class="detail-value remaining">${formatMoney(remaining)} ريال</div>
+          </div>
+
+          <div class="detail">
+            <div class="detail-title">رقم المرجع</div>
+            <div class="detail-value">${escapeHtml(payment.ReferenceNo || "غير محدد")}</div>
+          </div>
+        </div>
+
+        <div class="card-actions">
+          <button class="action action-receipt" onclick="openReceipt('${escapeAttr(payment.PaymentID || "")}')">الإيصال</button>
+          <button class="action action-edit" onclick="editPayment('${escapeAttr(payment.PaymentID || "")}')">تعديل</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function applyFilters(){
+  const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+  const contractId = document.getElementById("filterContract").value;
+  const status = document.getElementById("filterStatus").value;
+
+  const filtered = payments.filter(p => {
+    const contract = getContract(p.ContractID);
+    const property = contract ? getProperty(contract.PropertyID) : null;
+    const unit = contract ? getUnit(contract.UnitID) : null;
+    const tenant = contract ? getTenant(contract.TenantID) : null;
+
+    const text = [
+      p.PaymentID,
+      p.ContractID,
+      p.ReferenceNo,
+      p.PaymentStatus,
+      tenant?.FullName,
+      property?.PropertyName,
+      unit?.UnitName,
+      unit?.UnitNo
+    ].join(" ").toLowerCase();
+
+    return (
+      (!keyword || text.includes(keyword)) &&
+      (!contractId || p.ContractID === contractId) &&
+      (!status || p.PaymentStatus === status)
+    );
+  });
+
+  updateKpis(filtered);
+  renderPayments(filtered);
+}
+
+function openDrawer(){
+  clearMessage();
+  document.getElementById("drawerBackdrop").style.display = "block";
+  document.getElementById("drawer").classList.add("open");
+}
+
+function closeDrawer(){
+  document.getElementById("drawerBackdrop").style.display = "none";
+  document.getElementById("drawer").classList.remove("open");
+}
+
+function resetForm(){
+  [
+    "contractId","dueDate","amount","paidAmount",
+    "paymentDate","paymentStatus","referenceNo","notes"
+  ].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = "";
+  });
+
+  clearMessage();
+}
+
+function validateForm(){
+  const fields = [
+    ["contractId","العقد"],
+    ["dueDate","تاريخ الاستحقاق"],
+    ["amount","المبلغ المستحق"],
+    ["paymentStatus","حالة الدفعة"]
+  ];
+
+  for(const [id,label] of fields){
+    const el = document.getElementById(id);
+
+    if(!el.value.trim()){
+      showMessage("يرجى تعبئة حقل: " + label, "error");
+      el.focus();
+      return false;
+    }
+  }
+
+  const amount = Number(getValue("amount") || 0);
+  const paidAmount = Number(getValue("paidAmount") || 0);
+
+  if(paidAmount > amount){
+    showMessage("المبلغ المدفوع لا يمكن أن يكون أكبر من المبلغ المستحق", "error");
+    document.getElementById("paidAmount").focus();
+    return false;
+  }
+
+  return true;
+}
+
+async function savePayment(){
+  if(!validateForm()) return;
+
+  const saveBtn = document.getElementById("saveBtn");
+  saveBtn.disabled = true;
+  saveBtn.innerText = "جاري الحفظ...";
+
+  try{
+    const params = new URLSearchParams({
+      action:"addPayment",
+      contractId:getValue("contractId"),
+      dueDate:getValue("dueDate"),
+      amount:getValue("amount"),
+      paidAmount:getValue("paidAmount"),
+      paymentDate:getValue("paymentDate"),
+      paymentStatus:getValue("paymentStatus"),
+      referenceNo:getValue("referenceNo"),
+      notes:getValue("notes")
+    });
+
+    const response = await fetch(API_URL + "?" + params.toString());
+    const result = await response.json();
+
+    if(result.success){
+      showMessage("تم حفظ الدفعة بنجاح: " + result.paymentId, "success");
+      await loadPayments();
+      resetForm();
+
+      setTimeout(() => {
+        closeDrawer();
+      }, 900);
+    }
+    else{
+      showMessage("تعذر حفظ الدفعة", "error");
+    }
+  }
+  catch(error){
+    console.error(error);
+    showMessage("حدث خطأ أثناء حفظ الدفعة", "error");
+  }
+  finally{
+    saveBtn.disabled = false;
+    saveBtn.innerText = "حفظ الدفعة";
+  }
+}
+
+function getContract(id){
+  return contracts.find(c => c.ContractID === id);
+}
+
+function getProperty(id){
+  return properties.find(p => p.PropertyID === id);
+}
+
+function getUnit(id){
+  return units.find(u => u.UnitID === id);
+}
+
+function getTenant(id){
+  return tenants.find(t => t.TenantID === id);
+}
+
+function getContractDisplay(contract){
+  const tenant = getTenant(contract.TenantID);
+  const property = getProperty(contract.PropertyID);
+  const unit = getUnit(contract.UnitID);
+
+  return `${contract.ContractID || ""} - ${tenant?.FullName || "مستأجر"} - ${property?.PropertyName || "عقار"} - ${unit?.UnitName || unit?.UnitNo || "وحدة"}`;
+}
+
+function getStatusClass(status){
+  if(status === "مدفوع") return "status-paid";
+  if(status === "مستحق") return "status-due";
+  if(status === "متأخر") return "status-late";
+  if(status === "جزئي") return "status-partial";
+  if(status === "ملغي") return "status-cancelled";
+  return "status-due";
+}
+
+function getCardClass(status){
+  if(status === "مدفوع") return "paid";
+  if(status === "متأخر") return "late";
+  if(status === "جزئي") return "partial";
+  if(status === "ملغي") return "cancelled";
+  return "";
+}
+
+function formatMoney(value){
+  const number = Number(value || 0);
+
+  return number.toLocaleString("en-US", {
+    maximumFractionDigits:0
+  });
+}
+
+function formatDate(value){
+  if(!value){
+    return "غير محدد";
+  }
+
+  const text = String(value);
+
+  if(text.includes("T")){
+    return text.split("T")[0];
+  }
+
+  return text;
+}
+
+function getValue(id){
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : "";
+}
+
+function showMessage(text,type){
+  const msg = document.getElementById("formMessage");
+  msg.className = "message " + type;
+  msg.innerText = text;
+}
+
+function clearMessage(){
+  const msg = document.getElementById("formMessage");
+  msg.className = "message";
+  msg.innerText = "";
+}
+
+function openReceipt(paymentId){
+  alert("إيصال الدفعة: " + paymentId + " - سيتم تفعيله لاحقاً");
+}
+
+function editPayment(paymentId){
+  alert("تعديل الدفعة: " + paymentId + " - سيتم تفعيله لاحقاً");
+}
+
+function escapeHtml(value){
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function escapeAttr(value){
+  return String(value)
+    .replaceAll("\\","\\\\")
+    .replaceAll("'","\\'")
+    .replaceAll('"',"&quot;");
+}
+</script>
+
+</body>
+</html>
