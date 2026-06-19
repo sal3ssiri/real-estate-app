@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>المستأجرون</title>
+
+<style>
+:root{
+  --bg:#f6f8fb;
+  --card:#ffffff;
+  --text:#0f172a;
+  --muted:#64748b;
+  --line:#e5eaf1;
+  --primary:#16a34a;
+  --navy:#0f172a;
+  --blue:#2563eb;
+  --purple:#7c3aed;
+  --orange:#f59e0b;
+  --red:#dc2626;
+  --shadow:0 14px 35px rgba(15,23,42,.08);
+  --radius:20px;
+}
+
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:Tahoma,Arial,sans-serif;
+}
+
+body{
+  background:
+    radial-gradient(circle at top left, rgba(22,163,74,.08), transparent 30%),
+    var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+.page{
+  max-width:1440px;
+  margin:0 auto;
+  padding:28px;
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:flex-start;
+  gap:20px;
+  margin-bottom:20px;
+}
+
+.title h1{
+  font-size:34px;
+  letter-spacing:-.5px;
+  margin-bottom:8px;
+}
+
+.title p{
+  color:var(--muted);
+  font-size:15px;
+}
+
+.header-actions{
+  display:flex;
+  gap:10px;
+  align-items:center;
+  flex-wrap:wrap;
+}
+
+.user-pill{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:999px;
+  padding:10px 14px;
+  box-shadow:0 6px 18px rgba(15,23,42,.05);
+  font-size:13px;
+  color:var(--muted);
+}
+
+.btn{
+  border:0;
+  border-radius:12px;
+  padding:12px 18px;
+  cursor:pointer;
+  font-size:14px;
+  font-weight:700;
+  transition:.2s ease;
+  white-space:nowrap;
+}
+
+.btn:hover{
+  transform:translateY(-1px);
+  opacity:.95;
+}
+
+.btn:disabled{
+  opacity:.55;
+  cursor:not-allowed;
+  transform:none;
+}
+
+.btn-primary{
+  background:var(--primary);
+  color:white;
+}
+
+.btn-dark{
+  background:var(--navy);
+  color:white;
+}
+
+.btn-light{
+  background:#e2e8f0;
+  color:#0f172a;
+}
+
+.btn-danger{
+  background:var(--red);
+  color:white;
+}
+
+.hero{
+  background:linear-gradient(135deg,#0f172a,#1e293b);
+  color:white;
+  border-radius:24px;
+  padding:24px;
+  margin-bottom:18px;
+  box-shadow:var(--shadow);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:18px;
+  overflow:hidden;
+  position:relative;
+}
+
+.hero:before{
+  content:"";
+  position:absolute;
+  width:220px;
+  height:220px;
+  border-radius:50%;
+  background:rgba(22,163,74,.22);
+  top:-110px;
+  left:-80px;
+}
+
+.hero-main{
+  position:relative;
+  z-index:1;
+}
+
+.hero-main h2{
+  font-size:28px;
+  margin-bottom:8px;
+}
+
+.hero-main p{
+  color:#cbd5e1;
+  font-size:14px;
+}
+
+.hero-summary{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:10px;
+  position:relative;
+  z-index:1;
+  min-width:360px;
+}
+
+.hero-mini{
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(255,255,255,.14);
+  border-radius:16px;
+  padding:13px;
+  text-align:center;
+}
+
+.hero-mini span{
+  display:block;
+  color:#cbd5e1;
+  font-size:12px;
+  margin-bottom:7px;
+}
+
+.hero-mini strong{
+  font-size:23px;
+}
+
+.kpis{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:16px;
+  margin-bottom:18px;
+}
+
+.kpi{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  padding:18px;
+  box-shadow:var(--shadow);
+  position:relative;
+  overflow:hidden;
+}
+
+.kpi:before{
+  content:"";
+  position:absolute;
+  inset:auto 0 0 0;
+  height:4px;
+  background:linear-gradient(90deg,var(--primary),#22c55e);
+}
+
+.kpi-label{
+  color:var(--muted);
+  font-size:13px;
+  margin-bottom:10px;
+}
+
+.kpi-value{
+  font-size:32px;
+  font-weight:800;
+  letter-spacing:-1px;
+}
+
+.filters{
+  background:rgba(255,255,255,.88);
+  backdrop-filter:blur(8px);
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:16px;
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:12px;
+  margin-bottom:22px;
+}
+
+input,
+select,
+textarea{
+  width:100%;
+  border:1px solid #d8e0ea;
+  background:white;
+  border-radius:12px;
+  padding:12px 13px;
+  font-size:14px;
+  outline:none;
+}
+
+input:focus,
+select:focus,
+textarea:focus{
+  border-color:var(--primary);
+  box-shadow:0 0 0 4px rgba(22,163,74,.12);
+}
+
+.cards{
+  display:grid;
+  grid-template-columns:repeat(auto-fill,minmax(330px,1fr));
+  gap:18px;
+}
+
+.tenant-card{
+  background:var(--card);
+  border:1px solid var(--line);
+  border-radius:24px;
+  box-shadow:var(--shadow);
+  padding:20px;
+  transition:.2s ease;
+  position:relative;
+  overflow:hidden;
+}
+
+.tenant-card:hover{
+  transform:translateY(-3px);
+  box-shadow:0 18px 44px rgba(15,23,42,.12);
+}
+
+.tenant-card:before{
+  content:"";
+  position:absolute;
+  top:0;
+  right:0;
+  width:7px;
+  height:100%;
+  background:var(--blue);
+}
+
+.tenant-card.company:before{
+  background:var(--purple);
+}
+
+.card-head{
+  display:flex;
+  justify-content:space-between;
+  gap:14px;
+  margin-bottom:16px;
+}
+
+.identity{
+  display:flex;
+  gap:12px;
+  align-items:center;
+  min-width:0;
+}
+
+.avatar{
+  width:50px;
+  height:50px;
+  border-radius:18px;
+  background:#eff6ff;
+  color:#1d4ed8;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:22px;
+  font-weight:900;
+  flex-shrink:0;
+}
+
+.avatar.company{
+  background:#f3e8ff;
+  color:#6d28d9;
+}
+
+.tenant-name{
+  font-size:21px;
+  font-weight:800;
+  margin-bottom:6px;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  max-width:210px;
+}
+
+.tenant-id{
+  color:var(--muted);
+  font-size:13px;
+  direction:ltr;
+  text-align:right;
+}
+
+.status-badge{
+  align-self:flex-start;
+  padding:7px 11px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:800;
+  white-space:nowrap;
+}
+
+.status-active{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.status-inactive{
+  background:#e5e7eb;
+  color:#374151;
+}
+
+.status-stopped{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+.badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:16px;
+}
+
+.badge{
+  padding:7px 10px;
+  border-radius:999px;
+  font-size:12px;
+  font-weight:700;
+}
+
+.badge-individual{
+  background:#eff6ff;
+  color:#1d4ed8;
+}
+
+.badge-company{
+  background:#f3e8ff;
+  color:#6d28d9;
+}
+
+.badge-nationality{
+  background:#f8fafc;
+  color:#334155;
+  border:1px solid #e2e8f0;
+}
+
+.details{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.detail{
+  background:#f8fafc;
+  border:1px solid #eef2f7;
+  border-radius:16px;
+  padding:12px;
+}
+
+.detail-title{
+  color:var(--muted);
+  font-size:12px;
+  margin-bottom:5px;
+}
+
+.detail-value{
+  font-size:15px;
+  font-weight:800;
+  word-break:break-word;
+}
+
+.employer{
+  background:#f8fafc;
+  border:1px dashed #cbd5e1;
+  padding:11px 12px;
+  border-radius:16px;
+  color:#475569;
+  font-size:13px;
+  margin-bottom:12px;
+}
+
+.contracts-indicator{
+  background:#f8fafc;
+  border:1px solid #eef2f7;
+  padding:11px 12px;
+  border-radius:16px;
+  margin-bottom:16px;
+}
+
+.contracts-indicator .detail-title{
+  margin-bottom:5px;
+}
+
+.card-actions{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.action{
+  border:0;
+  border-radius:11px;
+  padding:10px 12px;
+  cursor:pointer;
+  font-size:13px;
+  font-weight:700;
+}
+
+.action-contract{
+  background:#e0f2fe;
+  color:#075985;
+}
+
+.action-edit{
+  background:#fef3c7;
+  color:#92400e;
+}
+
+.empty-state{
+  grid-column:1/-1;
+  background:white;
+  border:1px dashed #cbd5e1;
+  border-radius:24px;
+  padding:45px;
+  text-align:center;
+  color:var(--muted);
+}
+
+.drawer-backdrop{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.55);
+  z-index:1000;
+}
+
+.drawer{
+  position:fixed;
+  top:0;
+  left:0;
+  width:560px;
+  max-width:94vw;
+  height:100vh;
+  background:white;
+  z-index:1001;
+  transform:translateX(-110%);
+  transition:.25s ease;
+  box-shadow:20px 0 60px rgba(15,23,42,.24);
+  display:flex;
+  flex-direction:column;
+}
+
+.drawer.open{
+  transform:translateX(0);
+}
+
+.drawer-header{
+  padding:22px;
+  border-bottom:1px solid var(--line);
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.drawer-header h2{
+  font-size:24px;
+}
+
+.close{
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:12px;
+  cursor:pointer;
+  font-size:20px;
+  background:#f1f5f9;
+}
+
+.drawer-body{
+  padding:20px 22px;
+  overflow:auto;
+  flex:1;
+}
+
+.section{
+  border:1px solid var(--line);
+  border-radius:18px;
+  padding:16px;
+  margin-bottom:16px;
+}
+
+.section h3{
+  margin-bottom:14px;
+  font-size:17px;
+}
+
+.grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.field label{
+  display:block;
+  font-weight:700;
+  margin-bottom:7px;
+  font-size:13px;
+}
+
+.required{
+  color:var(--red);
+}
+
+.drawer-actions{
+  padding:16px 22px;
+  border-top:1px solid var(--line);
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+}
+
+.message{
+  display:none;
+  margin-bottom:14px;
+  padding:12px 14px;
+  border-radius:12px;
+  font-size:14px;
+}
+
+.message.success{
+  display:block;
+  background:#dcfce7;
+  color:#166534;
+}
+
+.message.error{
+  display:block;
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+@media(max-width:1000px){
+  .kpis{
+    grid-template-columns:repeat(2,1fr);
+  }
+
+  .filters{
+    grid-template-columns:1fr 1fr;
+  }
+
+  .hero{
+    flex-direction:column;
+    align-items:stretch;
+  }
+
+  .hero-summary{
+    min-width:0;
+  }
+}
+
+@media(max-width:700px){
+  .page{
+    padding:16px;
+  }
+
+  .header{
+    flex-direction:column;
+  }
+
+  .header-actions{
+    width:100%;
+  }
+
+  .header-actions .btn,
+  .user-pill{
+    flex:1;
+    text-align:center;
+  }
+
+  .kpis,
+  .filters,
+  .grid,
+  .hero-summary,
+  .details{
+    grid-template-columns:1fr;
+  }
+
+  .cards{
+    grid-template-columns:1fr;
+  }
+
+  .drawer{
+    width:100%;
+    max-width:100%;
+  }
+
+  .tenant-name{
+    max-width:180px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<script>
+const currentUser = JSON.parse(localStorage.getItem("currentUser"));
+
+if(!currentUser){
+  window.location.href = "login.html";
+}
+</script>
+
+<div class="page">
+
+  <div class="header">
+    <div class="title">
+      <h1>المستأجرون</h1>
+      <p>إدارة بيانات المستأجرين وربطهم بالعقود والوحدات لاحقاً</p>
+    </div>
+
+    <div class="header-actions">
+      <div class="user-pill">
+        <strong id="userName"></strong>
+        <span id="userRole"></span>
+      </div>
+      <button class="btn btn-dark" onclick="goHome()">الرئيسية</button>
+      <button class="btn btn-danger" onclick="logout()">خروج</button>
+      <button class="btn btn-primary" onclick="openDrawer()">+ إضافة مستأجر</button>
+    </div>
+  </div>
+
+  <div class="hero">
+    <div class="hero-main">
+      <h2>سجل المستأجرين</h2>
+      <p>قاعدة بيانات موحدة للأفراد والشركات لاستخدامها لاحقاً في العقود والمدفوعات.</p>
+    </div>
+
+    <div class="hero-summary">
+      <div class="hero-mini">
+        <span>نشط</span>
+        <strong id="summaryActive">0</strong>
+      </div>
+
+      <div class="hero-mini">
+        <span>أفراد</span>
+        <strong id="summaryIndividuals">0</strong>
+      </div>
+
+      <div class="hero-mini">
+        <span>شركات</span>
+        <strong id="summaryCompanies">0</strong>
+      </div>
+    </div>
+  </div>
+
+  <div class="kpis">
+    <div class="kpi">
+      <div class="kpi-label">إجمالي المستأجرين</div>
+      <div class="kpi-value" id="kpiTotal">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">الأفراد</div>
+      <div class="kpi-value" id="kpiIndividuals">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">الشركات</div>
+      <div class="kpi-value" id="kpiCompanies">0</div>
+    </div>
+
+    <div class="kpi">
+      <div class="kpi-label">النشطين</div>
+      <div class="kpi-value" id="kpiActive">0</div>
+    </div>
+  </div>
+
+  <div class="filters">
+    <input id="searchInput" type="text" placeholder="ابحث بالاسم أو الهوية أو الجوال..." onkeyup="applyFilters()">
+
+    <select id="filterTenantType" onchange="applyFilters()">
+      <option value="">كل الأنواع</option>
+    </select>
+
+    <select id="filterTenantStatus" onchange="applyFilters()">
+      <option value="">كل الحالات</option>
+    </select>
+  </div>
+
+  <div class="cards" id="tenantsCards">
+    <div class="empty-state">جاري تحميل المستأجرين...</div>
+  </div>
+
+</div>
+
+<div class="drawer-backdrop" id="drawerBackdrop" onclick="closeDrawer()"></div>
+
+<div class="drawer" id="drawer">
+  <div class="drawer-header">
+    <h2>إضافة مستأجر</h2>
+    <button class="close" onclick="closeDrawer()">×</button>
+  </div>
+
+  <div class="drawer-body">
+
+    <div id="formMessage" class="message"></div>
+
+    <div class="section">
+      <h3>البيانات الأساسية</h3>
+
+      <div class="grid">
+        <div class="field">
+          <label>نوع المستأجر <span class="required">*</span></label>
+          <select id="tenantType"></select>
+        </div>
+
+        <div class="field">
+          <label>الاسم الكامل <span class="required">*</span></label>
+          <input id="fullName" placeholder="مثال: محمد أحمد">
+        </div>
+
+        <div class="field">
+          <label>رقم الهوية / السجل <span class="required">*</span></label>
+          <input id="nationalId" placeholder="رقم الهوية أو السجل التجاري">
+        </div>
+
+        <div class="field">
+          <label>الجوال <span class="required">*</span></label>
+          <input id="mobile" placeholder="05xxxxxxxx">
+        </div>
+
+        <div class="field" style="grid-column:1/-1">
+          <label>البريد الإلكتروني</label>
+          <input id="email" type="email" placeholder="example@email.com">
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h3>معلومات إضافية</h3>
+
+      <div class="grid">
+        <div class="field">
+          <label>الجنسية</label>
+          <input id="nationality" placeholder="مثال: سعودي">
+        </div>
+
+        <div class="field">
+          <label>تاريخ الميلاد</label>
+          <input id="birthDate" type="date">
+        </div>
+
+        <div class="field">
+          <label>جهة العمل</label>
+          <input id="employer" placeholder="اختياري">
+        </div>
+
+        <div class="field">
+          <label>هاتف للطوارئ</label>
+          <input id="emergencyContact" placeholder="05xxxxxxxx">
+        </div>
+
+        <div class="field" style="grid-column:1/-1">
+          <label>الحالة <span class="required">*</span></label>
+          <select id="tenantStatus"></select>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="drawer-actions">
+    <button class="btn btn-primary" id="saveBtn" onclick="saveTenant()">حفظ المستأجر</button>
+    <button class="btn btn-light" onclick="resetForm()">تفريغ</button>
+    <button class="btn btn-danger" onclick="closeDrawer()">إلغاء</button>
+  </div>
+</div>
+
+<script>
+const API_URL =
+"https://script.google.com/macros/s/AKfycbw0dKIj7sUmNUBkWEwjCN61pyDcqrMmmLIfZhvIk3qIkiHDCrW2PNWUEN_2N9TIX-I6Yg/exec";
+
+let tenants = [];
+
+document.getElementById("userName").innerText = currentUser?.name || "";
+document.getElementById("userRole").innerText = " - " + (currentUser?.role || "");
+
+initPage();
+
+async function initPage(){
+  await loadLookups();
+  await loadTenants();
+}
+
+function logout(){
+  localStorage.removeItem("currentUser");
+  window.location.href = "login.html";
+}
+
+function goHome(){
+  window.location.href = "index.html";
+}
+
+async function loadLookups(){
+  await Promise.all([
+    fillLookup("TenantType","tenantType","اختر نوع المستأجر"),
+    fillLookup("TenantStatus","tenantStatus","اختر الحالة"),
+
+    fillLookup("TenantType","filterTenantType","كل الأنواع"),
+    fillLookup("TenantStatus","filterTenantStatus","كل الحالات")
+  ]);
+}
+
+async function fillLookup(category, elementId, placeholder){
+  const element = document.getElementById(elementId);
+  if(!element) return;
+
+  element.innerHTML = `<option value="">${placeholder}</option>`;
+
+  try{
+    const response = await fetch(
+      API_URL + "?action=getLookupValues&category=" + encodeURIComponent(category)
+    );
+
+    const data = await response.json();
+
+    if(data.success && Array.isArray(data.values)){
+      data.values.forEach(value => {
+        if(value !== ""){
+          element.innerHTML += `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`;
+        }
+      });
+    }
+  }
+  catch(error){
+    console.error("Lookup Error:", category, error);
+  }
+}
+
+async function loadTenants(){
+  const container = document.getElementById("tenantsCards");
+  container.innerHTML = `<div class="empty-state">جاري تحميل المستأجرين...</div>`;
+
+  try{
+    const response = await fetch(API_URL + "?action=getTenants");
+    const data = await response.json();
+
+    if(!data.success){
+      container.innerHTML = `<div class="empty-state">تعذر تحميل المستأجرين</div>`;
+      return;
+    }
+
+    tenants = data.tenants || [];
+
+    updateKpis(tenants);
+    renderTenants(tenants);
+  }
+  catch(error){
+    console.error(error);
+    container.innerHTML = `<div class="empty-state">حدث خطأ أثناء الاتصال بالنظام</div>`;
+  }
+}
+
+function updateKpis(items){
+  const total = items.length;
+  const individuals = items.filter(t => t.TenantType === "فرد").length;
+  const companies = items.filter(t => t.TenantType === "شركة").length;
+  const active = items.filter(t => t.TenantStatus === "نشط").length;
+
+  document.getElementById("kpiTotal").innerText = total;
+  document.getElementById("kpiIndividuals").innerText = individuals;
+  document.getElementById("kpiCompanies").innerText = companies;
+  document.getElementById("kpiActive").innerText = active;
+
+  document.getElementById("summaryActive").innerText = active;
+  document.getElementById("summaryIndividuals").innerText = individuals;
+  document.getElementById("summaryCompanies").innerText = companies;
+}
+
+function renderTenants(items){
+  const container = document.getElementById("tenantsCards");
+  container.innerHTML = "";
+
+  if(!items || items.length === 0){
+    container.innerHTML = `<div class="empty-state">لا توجد بيانات مستأجرين</div>`;
+    return;
+  }
+
+  items.forEach(tenant => {
+    const isCompany = tenant.TenantType === "شركة";
+    const statusClass = getStatusClass(tenant.TenantStatus);
+    const avatarText = getAvatarText(tenant.FullName, tenant.TenantType);
+
+    container.innerHTML += `
+      <div class="tenant-card ${isCompany ? "company" : ""}">
+        <div class="card-head">
+          <div class="identity">
+            <div class="avatar ${isCompany ? "company" : ""}">
+              ${escapeHtml(avatarText)}
+            </div>
+
+            <div>
+              <div class="tenant-name">${escapeHtml(tenant.FullName || "")}</div>
+              <div class="tenant-id">${escapeHtml(tenant.TenantID || "")}</div>
+            </div>
+          </div>
+
+          <span class="status-badge ${statusClass}">
+            ${escapeHtml(tenant.TenantStatus || "")}
+          </span>
+        </div>
+
+        <div class="badges">
+          <span class="badge ${isCompany ? "badge-company" : "badge-individual"}">
+            ${escapeHtml(tenant.TenantType || "")}
+          </span>
+
+          <span class="badge badge-nationality">
+            ${escapeHtml(tenant.Nationality || "غير محدد")}
+          </span>
+        </div>
+
+        <div class="details">
+          <div class="detail">
+            <div class="detail-title">الهوية / السجل</div>
+            <div class="detail-value">${escapeHtml(tenant.NationalID || "")}</div>
+          </div>
+
+          <div class="detail">
+            <div class="detail-title">الجوال</div>
+            <div class="detail-value">${escapeHtml(tenant.Mobile || "")}</div>
+          </div>
+
+          <div class="detail">
+            <div class="detail-title">البريد الإلكتروني</div>
+            <div class="detail-value">${escapeHtml(tenant.Email || "غير محدد")}</div>
+          </div>
+
+          <div class="detail">
+            <div class="detail-title">تاريخ الميلاد</div>
+            <div class="detail-value">${formatDate(tenant.BirthDate)}</div>
+          </div>
+        </div>
+
+        <div class="employer">
+          جهة العمل: ${escapeHtml(tenant.Employer || "غير محدد")}
+        </div>
+
+        <div class="contracts-indicator">
+          <div class="detail-title">العقود النشطة</div>
+          <div class="detail-value">0</div>
+        </div>
+
+        <div class="card-actions">
+          <button class="action action-contract" onclick="openTenantContracts('${escapeAttr(tenant.TenantID || "")}')">العقود</button>
+          <button class="action action-edit" onclick="editTenant('${escapeAttr(tenant.TenantID || "")}')">تعديل</button>
+        </div>
+      </div>
+    `;
+  });
+}
+
+function getStatusClass(status){
+  if(status === "نشط") return "status-active";
+  if(status === "غير نشط") return "status-inactive";
+  if(status === "موقوف") return "status-stopped";
+  return "status-inactive";
+}
+
+function getAvatarText(name,type){
+  if(!name){
+    return type === "شركة" ? "ش" : "م";
+  }
+
+  return String(name).trim().charAt(0);
+}
+
+function formatDate(value){
+  if(!value){
+    return "غير محدد";
+  }
+
+  const text = String(value);
+
+  if(text.includes("T")){
+    return text.split("T")[0];
+  }
+
+  return text;
+}
+
+function applyFilters(){
+  const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+  const type = document.getElementById("filterTenantType").value;
+  const status = document.getElementById("filterTenantStatus").value;
+
+  const filtered = tenants.filter(t => {
+    const text = [
+      t.TenantID,
+      t.FullName,
+      t.NationalID,
+      t.Mobile,
+      t.Email,
+      t.Nationality,
+      t.Employer,
+      t.EmergencyContact,
+      t.TenantStatus,
+      t.TenantType
+    ].join(" ").toLowerCase();
+
+    return (
+      (!keyword || text.includes(keyword)) &&
+      (!type || t.TenantType === type) &&
+      (!status || t.TenantStatus === status)
+    );
+  });
+
+  updateKpis(filtered);
+  renderTenants(filtered);
+}
+
+function openDrawer(){
+  clearMessage();
+  document.getElementById("drawerBackdrop").style.display = "block";
+  document.getElementById("drawer").classList.add("open");
+}
+
+function closeDrawer(){
+  document.getElementById("drawerBackdrop").style.display = "none";
+  document.getElementById("drawer").classList.remove("open");
+}
+
+function resetForm(){
+  [
+    "tenantType","fullName","nationalId","mobile","email",
+    "nationality","birthDate","employer","emergencyContact",
+    "tenantStatus"
+  ].forEach(id => {
+    const el = document.getElementById(id);
+    if(el) el.value = "";
+  });
+
+  clearMessage();
+}
+
+function validateForm(){
+  const fields = [
+    ["tenantType","نوع المستأجر"],
+    ["fullName","الاسم الكامل"],
+    ["nationalId","رقم الهوية / السجل"],
+    ["mobile","الجوال"],
+    ["tenantStatus","الحالة"]
+  ];
+
+  for(const [id,label] of fields){
+    const el = document.getElementById(id);
+
+    if(!el.value.trim()){
+      showMessage("يرجى تعبئة حقل: " + label, "error");
+      el.focus();
+      return false;
+    }
+  }
+
+  return true;
+}
+
+async function saveTenant(){
+  if(!validateForm()) return;
+
+  const saveBtn = document.getElementById("saveBtn");
+  saveBtn.disabled = true;
+  saveBtn.innerText = "جاري الحفظ...";
+
+  try{
+    const params = new URLSearchParams({
+      action:"addTenant",
+      fullName:getValue("fullName"),
+      nationalId:getValue("nationalId"),
+      mobile:getValue("mobile"),
+      email:getValue("email"),
+      nationality:getValue("nationality"),
+      birthDate:getValue("birthDate"),
+      employer:getValue("employer"),
+      emergencyContact:getValue("emergencyContact"),
+      tenantStatus:getValue("tenantStatus"),
+      tenantType:getValue("tenantType")
+    });
+
+    const response = await fetch(API_URL + "?" + params.toString());
+    const result = await response.json();
+
+    if(result.success){
+      showMessage("تم حفظ المستأجر بنجاح: " + result.tenantId, "success");
+      await loadTenants();
+      resetForm();
+
+      setTimeout(() => {
+        closeDrawer();
+      }, 900);
+    }
+    else{
+      showMessage("تعذر حفظ المستأجر", "error");
+    }
+  }
+  catch(error){
+    console.error(error);
+    showMessage("حدث خطأ أثناء حفظ المستأجر", "error");
+  }
+  finally{
+    saveBtn.disabled = false;
+    saveBtn.innerText = "حفظ المستأجر";
+  }
+}
+
+function getValue(id){
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : "";
+}
+
+function showMessage(text,type){
+  const msg = document.getElementById("formMessage");
+  msg.className = "message " + type;
+  msg.innerText = text;
+}
+
+function clearMessage(){
+  const msg = document.getElementById("formMessage");
+  msg.className = "message";
+  msg.innerText = "";
+}
+
+function openTenantContracts(tenantId){
+  alert("عقود المستأجر: " + tenantId + " - سيتم تفعيلها لاحقاً");
+}
+
+function editTenant(tenantId){
+  alert("تعديل المستأجر: " + tenantId + " - سيتم تفعيله لاحقاً");
+}
+
+function escapeHtml(value){
+  return String(value)
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function escapeAttr(value){
+  return String(value)
+    .replaceAll("\\","\\\\")
+    .replaceAll("'","\\'")
+    .replaceAll('"',"&quot;");
+}
+</script>
+
+</body>
+</html>
