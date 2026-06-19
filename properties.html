@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>العقارات</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Tahoma,sans-serif;
+}
+
+body{
+background:#f5f7fb;
+padding:25px;
+}
+
+.header{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:25px;
+}
+
+h1{
+font-size:32px;
+}
+
+.btn{
+background:#16a34a;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:10px;
+cursor:pointer;
+font-size:16px;
+}
+
+.search{
+width:100%;
+padding:12px;
+border:1px solid #ddd;
+border-radius:10px;
+margin-bottom:20px;
+}
+
+.table{
+background:white;
+border-radius:16px;
+overflow:hidden;
+box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th{
+background:#1e293b;
+color:white;
+padding:15px;
+}
+
+td{
+padding:15px;
+border-bottom:1px solid #eee;
+}
+
+.modal{
+display:none;
+position:fixed;
+top:0;
+left:0;
+right:0;
+bottom:0;
+background:rgba(0,0,0,.5);
+justify-content:center;
+align-items:center;
+}
+
+.modal-content{
+background:white;
+width:700px;
+max-width:95%;
+padding:25px;
+border-radius:16px;
+}
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:15px;
+}
+
+input,
+select{
+width:100%;
+padding:10px;
+border:1px solid #ddd;
+border-radius:8px;
+}
+
+.actions{
+margin-top:20px;
+display:flex;
+gap:10px;
+}
+
+.cancel{
+background:#dc2626;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+
+<h1>العقارات</h1>
+
+<button class="btn" onclick="openModal()">
+إضافة عقار
+</button>
+
+</div>
+
+<input
+type="text"
+class="search"
+placeholder="بحث..."
+onkeyup="filterProperties(this.value)"
+>
+
+<div class="table">
+
+<table>
+
+<thead>
+<tr>
+<th>العقار</th>
+<th>النوع</th>
+<th>المدينة</th>
+<th>الوحدات</th>
+<th>الحالة</th>
+</tr>
+</thead>
+
+<tbody id="propertiesTable">
+</tbody>
+
+</table>
+
+</div>
+
+<div class="modal" id="modal">
+
+<div class="modal-content">
+
+<h2 style="margin-bottom:20px">
+إضافة عقار
+</h2>
+
+<div class="grid">
+
+<input id="propertyName" placeholder="اسم العقار">
+
+<select id="propertyType">
+<option>عمارة</option>
+<option>فيلا</option>
+<option>شقق</option>
+<option>أرض</option>
+<option>محطة محروقات</option>
+</select>
+
+<input id="city" placeholder="المدينة">
+
+<input id="district" placeholder="الحي">
+
+<input id="address" placeholder="العنوان">
+
+<input id="deedNo" placeholder="رقم الصك">
+
+<input id="deedDate" type="date">
+
+<input id="ownerName" placeholder="اسم المالك">
+
+<input id="ownerMobile" placeholder="جوال المالك">
+
+<input id="unitsCount" type="number" placeholder="عدد الوحدات">
+
+</div>
+
+<div class="actions">
+
+<button class="btn" onclick="saveProperty()">
+حفظ
+</button>
+
+<button class="btn cancel" onclick="closeModal()">
+إلغاء
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+const API_URL =
+"https://script.google.com/macros/s/AKfycbw0dKIj7sUmNUBkWEwjCN61pyDcqrMmmLIfZhvIk3qIkiHDCrW2PNWUEN_2N9TIX-I6Yg/exec";
+
+let properties=[];
+
+loadProperties();
+
+async function loadProperties(){
+
+const response =
+await fetch(
+API_URL + "?action=getProperties"
+);
+
+const data =
+await response.json();
+
+properties = data.properties;
+
+renderProperties(properties);
+
+}
+
+function renderProperties(items){
+
+const table =
+document.getElementById("propertiesTable");
+
+table.innerHTML="";
+
+items.forEach(property=>{
+
+table.innerHTML += `
+<tr>
+<td>${property.PropertyName}</td>
+<td>${property.PropertyType}</td>
+<td>${property.City}</td>
+<td>${property.UnitsCount}</td>
+<td>${property.Status}</td>
+</tr>
+`;
+
+});
+
+}
+
+function filterProperties(keyword){
+
+keyword = keyword.toLowerCase();
+
+const filtered =
+properties.filter(p=>
+p.PropertyName.toLowerCase().includes(keyword)
+);
+
+renderProperties(filtered);
+
+}
+
+function openModal(){
+
+document.getElementById("modal").style.display="flex";
+
+}
+
+function closeModal(){
+
+document.getElementById("modal").style.display="none";
+
+}
+
+async function saveProperty(){
+
+const url =
+API_URL +
+"?action=addProperty" +
+"&propertyName=" + encodeURIComponent(document.getElementById("propertyName").value) +
+"&propertyType=" + encodeURIComponent(document.getElementById("propertyType").value) +
+"&city=" + encodeURIComponent(document.getElementById("city").value) +
+"&district=" + encodeURIComponent(document.getElementById("district").value) +
+"&address=" + encodeURIComponent(document.getElementById("address").value) +
+"&deedNo=" + encodeURIComponent(document.getElementById("deedNo").value) +
+"&deedDate=" + encodeURIComponent(document.getElementById("deedDate").value) +
+"&ownerName=" + encodeURIComponent(document.getElementById("ownerName").value) +
+"&ownerMobile=" + encodeURIComponent(document.getElementById("ownerMobile").value) +
+"&unitsCount=" + encodeURIComponent(document.getElementById("unitsCount").value);
+
+const response =
+await fetch(url);
+
+const result =
+await response.json();
+
+if(result.success){
+
+alert("تم الحفظ بنجاح");
+
+closeModal();
+
+loadProperties();
+
+}
+
+}
+
+</script>
+
+</body>
+</html>
